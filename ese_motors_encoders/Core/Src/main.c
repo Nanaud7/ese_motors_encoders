@@ -93,8 +93,9 @@ int main(void)
 
   // Démarrage du Timer qui génère un signal PWM
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  Mot_SetDutyCycle(50);
-  int i = 0;
+  Mot_SetDutyCycle(60);
+
+  int i=0;
 
   /* USER CODE END 2 */
 
@@ -103,10 +104,18 @@ int main(void)
   while (1)
   {
 	  /*
-	  if (i>40) i =0;
-	  Mot_SetDutyCycle(i++);
-	  HAL_Delay(100);
+	  uint8_t data[8] = "";
+	  if(HAL_UART_Receive(&huart2, data, sizeof(data), 50)){
+		  HAL_UART_Transmit(&huart2, data, sizeof(data), 50);
+	  }
 	  */
+
+	  myPrintf(&huart2,"Bonjour a tous!\r\n");
+	  HAL_Delay(100);
+
+	  if(i>100) i=0;
+	  Mot_SetDutyCycle(i++);
+
 
     /* USER CODE END WHILE */
 
