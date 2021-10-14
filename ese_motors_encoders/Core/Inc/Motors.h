@@ -29,7 +29,7 @@ typedef struct Mot_Struct{
 #define COUNTER_PERIOD 40
 
 /* Prototypes */
-uint8_t Mot_Init(Mot_Struct Motor, TIM_HandleTypeDef *htim, uint32_t Channel, GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+uint8_t Mot_Init_SetTimer(Mot_Struct Motor, TIM_HandleTypeDef *htim, uint32_t Channel);
 uint8_t Mot_SetDutyCycle(uint8_t duty_cycle);
 
 #endif /* INC_MOTORS_H_ */

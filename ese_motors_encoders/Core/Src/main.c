@@ -91,8 +91,9 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
-  // Initilisation des moteurs
+  // Initilisation du Moteur A
   Mot_Struct MoteurA;
+  Mot_Init_SetTimer(MotorA, &htim1, TIM_CHANNEL_1);
 
   // Configuration de IN1 et IN2
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
@@ -121,7 +122,7 @@ int main(void)
 	  HAL_Delay(100);
 
 	  /*
-	  if(i>100) i=0;
+	  if(i>80) i=0;
 	  Mot_SetDutyCycle(i++);
 	  */
 

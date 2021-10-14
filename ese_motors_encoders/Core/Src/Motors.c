@@ -3,11 +3,9 @@
 /*	@brief	Initialization of the motor configuration structure
  *	@param	motor : Mot_Struct structure
  */
-uint8_t Mot_Init(Mot_Struct Motor, TIM_HandleTypeDef *htim, uint32_t Channel, GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
+uint8_t Mot_Init_SetTimer(Mot_Struct Motor, TIM_HandleTypeDef *htim, uint32_t Channel){
 	Motor.Timer_PWM = htim;
 	Motor.Timer_Channel = Channel;
-	Motor.GPIOx = GPIOx;
-	Motor.GPIO_Pin = GPIO_Pin;
 	return 0;
 }
 
