@@ -5,6 +5,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/Encoders.c \
 ../Core/Src/Motors.c \
 ../Core/Src/Shell.c \
 ../Core/Src/gpio.c \
@@ -18,6 +19,7 @@ C_SRCS += \
 ../Core/Src/usart.c 
 
 OBJS += \
+./Core/Src/Encoders.o \
 ./Core/Src/Motors.o \
 ./Core/Src/Shell.o \
 ./Core/Src/gpio.o \
@@ -31,6 +33,7 @@ OBJS += \
 ./Core/Src/usart.o 
 
 C_DEPS += \
+./Core/Src/Encoders.d \
 ./Core/Src/Motors.d \
 ./Core/Src/Shell.d \
 ./Core/Src/gpio.d \

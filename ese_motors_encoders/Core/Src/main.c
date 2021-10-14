@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint8_t data[8];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -89,14 +89,26 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
+  MX_TIM2_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
+  printf("\r\nese_motors_encoders\r\n");
 
-  // Initilisation du Moteur A
+  // Configuration de la réception UART avec interruption
+  HAL_UART_Receive_IT(&huart2, (uint8_t*)&data, 1);
+
+  // Initialisation du Moteur A
   Mot_Struct MoteurA;
   Mot_Init_SetTimer(&MoteurA, &htim1, TIM_CHANNEL_1);
   Mot_Init_SetGPIOs(&MoteurA, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
-  Mot_SetDirection(&MoteurA, MOTOR_FORWARD);
-  Mot_SetDutyCycle(&MoteurA, 50);
+  Mot_SetDirection(&MoteurA, MOTOR_REVERSE);
+  Mot_SetDutyCycle(&MoteurA, 65);
+
+  // Initialisation du Codeur A
+  HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_1 & TIM_CHANNEL_2);
+
+  // Initialisation de l'asservissement
+
 
   /* USER CODE END 2 */
 
@@ -104,6 +116,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+	  int i = TIM2->CNT;
+	  printf("Ticks = %d\r\n",i);
 
     /* USER CODE END WHILE */
 
@@ -158,6 +173,11 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
+    HAL_UART_Transmit(&huart2, (uint8_t*)&data, 1, 0xFFFF);
+    HAL_UART_Receive_IT(&huart2, (uint8_t*)&data, 1);
+}
 
 /* USER CODE END 4 */
 

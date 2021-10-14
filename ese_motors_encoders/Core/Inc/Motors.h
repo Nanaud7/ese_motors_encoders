@@ -1,10 +1,17 @@
 #ifndef INC_MOTORS_H_
 #define INC_MOTORS_H_
 
-/* Comment configurer l'IOC ?
+/* Comment configurer le moteur ?
  *
- * 1) Configurer 2x timers en PWM Generation à 25kHz avec un rapport cyclique de 0%.
+ * 1) Dans l'IOC, configurer 2x timers en PWM Generation à 25kHz avec un rapport cyclique de 0%.
  * Exemple : Clk = 84MHz => PSC = 84-1, ARR = 40-1 et Pulse = 20 + Fast Mode
+ *
+ * 2) Programme d'exemple :
+ * Mot_Struct MoteurA;
+ * Mot_Init_SetTimer(&MoteurA, &htim1, TIM_CHANNEL_1); 					// Initialisation Timer
+ * Mot_Init_SetGPIOs(&MoteurA, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1);	// Initialisation GPIOs
+ * Mot_SetDirection(&MoteurA, MOTOR_FORWARD);	// Définition du sens de rotation
+ * Mot_SetDutyCycle(&MoteurA, 65);
  *
  * */
 
