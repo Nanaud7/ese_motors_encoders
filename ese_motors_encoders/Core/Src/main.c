@@ -93,17 +93,10 @@ int main(void)
 
   // Initilisation du Moteur A
   Mot_Struct MoteurA;
-  Mot_Init_SetTimer(MotorA, &htim1, TIM_CHANNEL_1);
-
-  // Configuration de IN1 et IN2
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
-
-  // Démarrage du Timer qui génère un signal PWM
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  Mot_SetDutyCycle(60); // 60% minimum
-
-  int i=0;
+  Mot_Init_SetTimer(&MoteurA, &htim1, TIM_CHANNEL_1);
+  Mot_Init_SetGPIOs(&MoteurA, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
+  Mot_SetDirection(&MoteurA, MOTOR_FORWARD);
+  Mot_SetDutyCycle(&MoteurA, 50);
 
   /* USER CODE END 2 */
 
@@ -111,21 +104,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  /*
-	  uint8_t data[8] = "";
-	  if(HAL_UART_Receive(&huart2, data, sizeof(data), 50)){
-		  HAL_UART_Transmit(&huart2, data, sizeof(data), 50);
-	  }
-	  */
-
-	  myPrintf(&huart2,"Bonjour a tous!\r\n");
-	  HAL_Delay(100);
-
-	  /*
-	  if(i>80) i=0;
-	  Mot_SetDutyCycle(i++);
-	  */
-
 
     /* USER CODE END WHILE */
 
