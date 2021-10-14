@@ -1,5 +1,16 @@
 #include "Motors.h"
 
+/*	@brief	Initialization of the motor configuration structure
+ *	@param	motor : Mot_Struct structure
+ */
+uint8_t Mot_Init(Mot_Struct Motor, TIM_HandleTypeDef *htim, uint32_t Channel, GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin){
+	Motor.Timer_PWM = htim;
+	Motor.Timer_Channel = Channel;
+	Motor.GPIOx = GPIOx;
+	Motor.GPIO_Pin = GPIO_Pin;
+	return 0;
+}
+
 /*	@brief	Set the PWM Duty Cycle
  *	@param	duty_cycle : value between 0 and 100
  */

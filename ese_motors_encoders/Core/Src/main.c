@@ -91,9 +91,16 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
+  // Initilisation des moteurs
+  Mot_Struct MoteurA;
+
+  // Configuration de IN1 et IN2
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
+
   // Démarrage du Timer qui génère un signal PWM
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  Mot_SetDutyCycle(60);
+  Mot_SetDutyCycle(60); // 60% minimum
 
   int i=0;
 
@@ -113,8 +120,10 @@ int main(void)
 	  myPrintf(&huart2,"Bonjour a tous!\r\n");
 	  HAL_Delay(100);
 
+	  /*
 	  if(i>100) i=0;
 	  Mot_SetDutyCycle(i++);
+	  */
 
 
     /* USER CODE END WHILE */
