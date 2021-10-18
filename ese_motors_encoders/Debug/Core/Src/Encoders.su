@@ -1,0 +1,2 @@
+Encoders.c:16:9:Enc_Init_SetTimer	24	static
+Encoders.c:36:10:Enc_GetTick	24	static

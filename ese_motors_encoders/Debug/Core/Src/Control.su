@@ -1,0 +1,2 @@
+Control.c:14:9:Ctrl_Init_SetTimer	16	static
+Control.c:32:9:Ctrl_MotorControl	8	static

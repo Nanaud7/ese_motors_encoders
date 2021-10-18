@@ -34,6 +34,8 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "Shell.h"
 #include "Motors.h"
+#include "Encoders.h"
+#include "Control.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

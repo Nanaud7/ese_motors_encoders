@@ -105,10 +105,12 @@ int main(void)
   Mot_SetDutyCycle(&MoteurA, 65);
 
   // Initialisation du Codeur A
-  HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_1 & TIM_CHANNEL_2);
+  Enc_Struct CodeurA;
+  Enc_Init_SetTimer(&CodeurA, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
 
   // Initialisation de l'asservissement
-
+  Ctrl_Struct Control;
+  Ctrl_Init_SetTimer(&Control, &htim6);
 
   /* USER CODE END 2 */
 
@@ -117,7 +119,7 @@ int main(void)
   while (1)
   {
 
-	  int i = TIM2->CNT;
+	  int i = Enc_GetTick(&CodeurA);
 	  printf("Ticks = %d\r\n",i);
 
     /* USER CODE END WHILE */
@@ -177,6 +179,12 @@ void SystemClock_Config(void)
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
     HAL_UART_Transmit(&huart2, (uint8_t*)&data, 1, 0xFFFF);
     HAL_UART_Receive_IT(&huart2, (uint8_t*)&data, 1);
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+	if(htim->Instance == TIM6){
+		Ctrl_MotorControl();
+	}
 }
 
 /* USER CODE END 4 */

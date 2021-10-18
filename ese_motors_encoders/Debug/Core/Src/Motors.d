@@ -28,7 +28,8 @@ Core/Src/Motors.o: ../Core/Src/Motors.c ../Core/Inc/Motors.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/Shell.h ../Core/Inc/usart.h ../Core/Inc/Motors.h
+ ../Core/Inc/Shell.h ../Core/Inc/usart.h ../Core/Inc/Motors.h \
+ ../Core/Inc/Encoders.h ../Core/Inc/Control.h ../Core/Inc/Odometry.h
 
 ../Core/Inc/Motors.h:
 
@@ -97,3 +98,9 @@ Core/Src/Motors.o: ../Core/Src/Motors.c ../Core/Inc/Motors.h \
 ../Core/Inc/usart.h:
 
 ../Core/Inc/Motors.h:
+
+../Core/Inc/Encoders.h:
+
+../Core/Inc/Control.h:
+
+../Core/Inc/Odometry.h:
