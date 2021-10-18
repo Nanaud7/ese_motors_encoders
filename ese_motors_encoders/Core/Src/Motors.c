@@ -75,6 +75,8 @@ uint8_t Mot_SetDirection(Mot_Struct* Motor, uint8_t direction){
 		HAL_GPIO_WritePin(Motor->IN1_GPIOx, Motor->IN1_GPIO_Pin, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(Motor->IN2_GPIOx, Motor->IN2_GPIO_Pin, GPIO_PIN_RESET);
 	}
+
+	return 0;
 }
 
 /*	@brief	Set the PWM Duty Cycle

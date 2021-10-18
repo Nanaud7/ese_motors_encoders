@@ -21,6 +21,7 @@ typedef struct Enc_Struct{
 
 /* Prototypes */
 uint8_t Enc_Init_SetTimer(Enc_Struct* Encoder, TIM_HandleTypeDef *htim, uint32_t Channel_A, uint32_t Channel_B);
-uint16_t Enc_GetTick(Enc_Struct* Encoder);
+uint16_t Enc_GetCnt(Enc_Struct* Encoder);
+uint8_t Enc_ResetCnt(Enc_Struct* Encoder);
 
 #endif /* INC_ENCODERS_H_ */

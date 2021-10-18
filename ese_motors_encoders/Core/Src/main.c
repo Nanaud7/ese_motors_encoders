@@ -45,6 +45,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+Enc_Struct CodeurA;
+
 uint8_t data[8];
 /* USER CODE END PV */
 
@@ -105,7 +107,6 @@ int main(void)
   Mot_SetDutyCycle(&MoteurA, 65);
 
   // Initialisation du Codeur A
-  Enc_Struct CodeurA;
   Enc_Init_SetTimer(&CodeurA, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
 
   // Initialisation de l'asservissement
@@ -119,7 +120,7 @@ int main(void)
   while (1)
   {
 
-	  int i = Enc_GetTick(&CodeurA);
+	  int i = Enc_GetCnt(&CodeurA);
 	  printf("Ticks = %d\r\n",i);
 
     /* USER CODE END WHILE */
@@ -183,7 +184,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM6){
-		Ctrl_MotorControl();
+		//Ctrl_MotorControl();
+		Enc_ResetCnt(&CodeurA);
 	}
 }
 
