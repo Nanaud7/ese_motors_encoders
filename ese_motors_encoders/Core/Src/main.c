@@ -1,24 +1,25 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -45,7 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-Enc_Struct CodeurA;
+Enc_Struct CodeurGauche, CodeurDroite;
 
 uint8_t data[8];
 /* USER CODE END PV */
@@ -93,40 +94,49 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM6_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-  printf("\r\nese_motors_encoders\r\n");
+	printf("\r\nese_motors_encoders\r\n");
 
-  // Configuration de la réception UART avec interruption
-  HAL_UART_Receive_IT(&huart2, (uint8_t*)&data, 1);
+	// Configuration de la réception UART avec interruption
+	HAL_UART_Receive_IT(&huart2, (uint8_t*)&data, 1);
 
-  // Initialisation du Moteur A
-  Mot_Struct MoteurA;
-  Mot_Init_SetTimer(&MoteurA, &htim1, TIM_CHANNEL_1);
-  Mot_Init_SetGPIOs(&MoteurA, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
-  Mot_SetDirection(&MoteurA, MOTOR_REVERSE);
-  Mot_SetDutyCycle(&MoteurA, 65);
+	// Initialisation du Moteur A
+	Mot_Struct MoteurA;
+	Mot_Init_SetTimer(&MoteurA, &htim1, TIM_CHANNEL_1);
+	Mot_Init_SetGPIOs(&MoteurA, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
+	Mot_SetDirection(&MoteurA, MOTOR_REVERSE);
+	Mot_SetDutyCycle(&MoteurA, 66);
 
-  // Initialisation du Codeur A
-  Enc_Init_SetTimer(&CodeurA, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
+	// Initialisation du Codeur A
+	Enc_Init_SetTimer(&CodeurGauche, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
 
-  // Initialisation de l'asservissement
-  Ctrl_Struct Control;
-  Ctrl_Init_SetTimer(&Control, &htim6);
+	// Initialisation de l'odométrie
+	Odo_Struct Odometrie;
+	Odo_Init(&Odometrie, &CodeurGauche, &CodeurDroite);
+
+	// Initialisation de l'asservissement
+	Ctrl_Struct Control;
+	Ctrl_Init_SetTimer(&Control, &htim6);
+
+	// Test ADC
+	HAL_ADC_Start_IT(&hadc1);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1)
+	{
+		//int i = Enc_GetCnt(&CodeurGauche);
+		//printf("Ticks = %d\r\n",i);
 
-	  int i = Enc_GetCnt(&CodeurA);
-	  printf("Ticks = %d\r\n",i);
+		HAL_Delay(1000);
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -178,14 +188,22 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
-    HAL_UART_Transmit(&huart2, (uint8_t*)&data, 1, 0xFFFF);
-    HAL_UART_Receive_IT(&huart2, (uint8_t*)&data, 1);
+	HAL_UART_Transmit(&huart2, (uint8_t*)&data, 1, 0xFFFF);
+	HAL_UART_Receive_IT(&huart2, (uint8_t*)&data, 1);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM6){
 		//Ctrl_MotorControl();
-		Enc_ResetCnt(&CodeurA);
+		Enc_ResetCnt(&CodeurGauche);
+	}
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+	if(hadc->Instance == ADC1){
+		uint32_t val = HAL_ADC_GetValue(&hadc1);
+		printf("val = %ld\r\n", val);
+		//HAL_ADC_Start_IT(&hadc1);
 	}
 }
 
@@ -198,11 +216,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1)
+	{
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -217,7 +235,7 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
+	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }

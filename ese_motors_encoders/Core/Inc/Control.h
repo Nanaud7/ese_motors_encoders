@@ -18,8 +18,13 @@
 
 // Mot_Struct contient tous les paramètres relatifs à un moteur
 typedef struct Ctrl_Struct{
+	// Timer
 	TIM_HandleTypeDef* Timer;
-
+	// Odometry
+	struct Odo_Struct *Odo;
+	// Motors
+	struct Mot_Struct *MotorLeft;
+	struct Mot_Struct *MotorRight;
 } Ctrl_Struct;
 
 uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim);

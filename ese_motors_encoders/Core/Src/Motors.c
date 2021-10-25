@@ -13,10 +13,10 @@
  *	@retval 0
  */
 uint8_t Mot_Init_SetTimer(Mot_Struct* Motor, TIM_HandleTypeDef *htim, uint32_t Channel){
-	Motor->Timer = htim;
+	Motor->Timer_Handle = htim;
 	Motor->Timer_Channel = Channel;
 
-	HAL_TIM_PWM_Start(Motor->Timer, Motor->Timer_Channel);
+	HAL_TIM_PWM_Start(Motor->Timer_Handle, Motor->Timer_Channel);
 	return 0;
 }
 
@@ -84,11 +84,11 @@ uint8_t Mot_SetDirection(Mot_Struct* Motor, uint8_t direction){
  *	@param	duty_cycle is value between 0 and 100
  *	@retval 0
  */
-uint8_t Mot_SetDutyCycle(Mot_Struct* Motor, uint8_t duty_cycle){
+uint8_t Mot_SetDutyCycle(Mot_Struct* Motor, float duty_cycle){
 	if(duty_cycle > 100) duty_cycle = 100;
 
-	float pulse = ((float)duty_cycle / 100) * (float)COUNTER_PERIOD;
+	float pulse = (duty_cycle / 100) * (float)COUNTER_PERIOD;
 
-	__HAL_TIM_SET_COMPARE(Motor->Timer, Motor->Timer_Channel, (uint32_t)pulse);
+	__HAL_TIM_SET_COMPARE(Motor->Timer_Handle, Motor->Timer_Channel, (uint32_t)pulse);
 	return 0;
 }

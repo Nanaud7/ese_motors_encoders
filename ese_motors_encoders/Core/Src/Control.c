@@ -30,7 +30,7 @@ uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim){
  *	@retval 0
  */
 uint8_t Ctrl_MotorControl(){
-	Odo_Odometry();
+	//Odo_Odometry();
 
 	return 0;
 }

@@ -10,6 +10,7 @@ C_SRCS += \
 ../Core/Src/Motors.c \
 ../Core/Src/Odometry.c \
 ../Core/Src/Shell.c \
+../Core/Src/adc.c \
 ../Core/Src/gpio.c \
 ../Core/Src/main.c \
 ../Core/Src/stm32f4xx_hal_msp.c \
@@ -26,6 +27,7 @@ OBJS += \
 ./Core/Src/Motors.o \
 ./Core/Src/Odometry.o \
 ./Core/Src/Shell.o \
+./Core/Src/adc.o \
 ./Core/Src/gpio.o \
 ./Core/Src/main.o \
 ./Core/Src/stm32f4xx_hal_msp.o \
@@ -42,6 +44,7 @@ C_DEPS += \
 ./Core/Src/Motors.d \
 ./Core/Src/Odometry.d \
 ./Core/Src/Shell.d \
+./Core/Src/adc.d \
 ./Core/Src/gpio.d \
 ./Core/Src/main.d \
 ./Core/Src/stm32f4xx_hal_msp.d \

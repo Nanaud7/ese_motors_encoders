@@ -33,9 +33,9 @@ uint8_t Enc_Init_SetTimer(Enc_Struct* Encoder, TIM_HandleTypeDef *htim, uint32_t
  *	@param	Encoder is a Enc_Struct structure
  *	@retval CNT value of the timer
  */
-uint16_t Enc_GetCnt(Enc_Struct* Encoder){
+int16_t Enc_GetCnt(Enc_Struct* Encoder){
 	//uint16_t ticks = __HAL_TIM_GET_COUNTER(Encoder->Timer);
-	uint16_t ticks = Encoder->Timer->Instance->CNT;
+	int16_t ticks = Encoder->Timer->Instance->CNT;
 
 	return ticks;
 }
