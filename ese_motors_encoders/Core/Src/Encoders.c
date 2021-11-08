@@ -1,5 +1,9 @@
 #include "Encoders.h"
 
+/* Variables */
+Enc_Struct CodeurGauche;
+Enc_Struct CodeurDroite;
+
 /*
  *
  * INITIALIZATION FUNCTIONS
@@ -36,6 +40,7 @@ uint8_t Enc_Init_SetTimer(Enc_Struct* Encoder, TIM_HandleTypeDef *htim, uint32_t
 int16_t Enc_GetCnt(Enc_Struct* Encoder){
 	//uint16_t ticks = __HAL_TIM_GET_COUNTER(Encoder->Timer);
 	int16_t ticks = Encoder->Timer->Instance->CNT;
+	Enc_ResetCnt(Encoder);
 
 	return ticks;
 }

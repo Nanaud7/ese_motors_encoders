@@ -32,7 +32,7 @@ Core/Src/stm32f4xx_hal_msp.o: ../Core/Src/stm32f4xx_hal_msp.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/Shell.h ../Core/Inc/usart.h ../Core/Inc/main.h \
  ../Core/Inc/Motors.h ../Core/Inc/tim.h ../Core/Inc/Control.h \
- ../Core/Inc/Odometry.h ../Core/Inc/Encoders.h
+ ../Core/Inc/Encoders.h
 
 ../Core/Inc/main.h:
 
@@ -109,7 +109,5 @@ Core/Src/stm32f4xx_hal_msp.o: ../Core/Src/stm32f4xx_hal_msp.c \
 ../Core/Inc/tim.h:
 
 ../Core/Inc/Control.h:
-
-../Core/Inc/Odometry.h:
 
 ../Core/Inc/Encoders.h:

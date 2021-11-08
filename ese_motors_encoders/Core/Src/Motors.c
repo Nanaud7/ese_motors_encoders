@@ -1,5 +1,9 @@
 #include "Motors.h"
 
+/* Variables */
+Mot_Struct MoteurGauche;
+Mot_Struct MoteurDroite;
+
 /*
  *
  * INITIALIZATION FUNCTIONS

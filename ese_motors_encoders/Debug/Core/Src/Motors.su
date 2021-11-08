@@ -1,4 +1,4 @@
-Motors.c:15:9:Mot_Init_SetTimer	24	static
-Motors.c:31:9:Mot_Init_SetGPIOs	24	static
-Motors.c:56:9:Mot_SetDirection	16	static
-Motors.c:87:9:Mot_SetDutyCycle	24	static
+Motors.c:19:9:Mot_Init_SetTimer	24	static
+Motors.c:35:9:Mot_Init_SetGPIOs	24	static
+Motors.c:60:9:Mot_SetDirection	16	static
+Motors.c:91:9:Mot_SetDutyCycle	24	static

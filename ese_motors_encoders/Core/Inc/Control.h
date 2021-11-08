@@ -12,10 +12,13 @@
  * */
 
 #include "tim.h"
-#include "Odometry.h"
+#include "Encoders.h"
+
+/* Defines */
+#define SPEED_CONTROL_FREQUENCY 50
+#define SPEED_CONTROL_PERIOD (1/(float)SPEED_CONTROL_FREQUENCY)
 
 /* Structure */
-
 // Mot_Struct contient tous les paramètres relatifs à un moteur
 typedef struct Ctrl_Struct{
 	// Timer
@@ -28,6 +31,6 @@ typedef struct Ctrl_Struct{
 } Ctrl_Struct;
 
 uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim);
-uint8_t Ctrl_MotorControl();
+float Ctrl_SpeedControl();
 
 #endif /* INC_CONTROL_H_ */

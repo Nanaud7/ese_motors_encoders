@@ -25,12 +25,25 @@ uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim){
  *
  */
 
-/*	@brief	Main motor control function
+/*	@brief	Speed control function called with a 50Hz frequency
  *	@param	None
  *	@retval 0
  */
-uint8_t Ctrl_MotorControl(){
-	//Odo_Odometry();
+float Ctrl_SpeedControl(){
+	// Nombre de ticks du compteur depuis le dernier appel
+	int16_t ticks = Enc_GetCnt(&CodeurGauche);
+	//printf("%d\r\n",ticks);
 
-	return 0;
+	// Calcul de la distance
+	//float distance = 0;
+	//if(ticks >= 0) distance = (float)ticks * (float)DISTANCE_PER_TICK;
+	//else distance = (-1) * (float)ticks * (float)DISTANCE_PER_TICK;
+	//printf("%f\r\n",distance);
+
+	// Calcul de la vitesse
+	float speed = (ticks / (float)ENCODER_PPR) * 50;
+	//printf("%f\r\n",(float)SPEED_CONTROL_PERIOD);
+	printf("%f tr/s\r\n",speed);
+
+	return speed;
 }

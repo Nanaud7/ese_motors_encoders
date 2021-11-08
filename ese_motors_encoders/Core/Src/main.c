@@ -47,7 +47,7 @@
 
 /* USER CODE BEGIN PV */
 Shell_Struct Shell;
-Enc_Struct CodeurGauche, CodeurDroite;
+//Enc_Struct CodeurGauche, CodeurDroite;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,7 +98,7 @@ int main(void)
 	printf("\r\nese_motors_encoders\r\n");
 
 	// Configuration de la réception UART avec interruption
-	Shell_Init(&Shell, &huart2);
+	//Shell_Init(&Shell, &huart2);
 
 	// Initialisation du Moteur A
 	Mot_Struct MoteurA;
@@ -106,20 +106,14 @@ int main(void)
 	Mot_Init_SetGPIOs(&MoteurA, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
 	Mot_SetDirection(&MoteurA, MOTOR_REVERSE);
 	Mot_SetDutyCycle(&MoteurA, 66);
+	//HAL_ADC_Start_IT(&hadc1);
 
 	// Initialisation du Codeur A
 	Enc_Init_SetTimer(&CodeurGauche, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
 
-	// Initialisation de l'odométrie
-	Odo_Struct Odometrie;
-	Odo_Init(&Odometrie, &CodeurGauche, &CodeurDroite);
-
 	// Initialisation de l'asservissement
 	Ctrl_Struct Control;
 	Ctrl_Init_SetTimer(&Control, &htim6);
-
-	// Test ADC
-	HAL_ADC_Start_IT(&hadc1);
 
 	/* USER CODE END 2 */
 
@@ -129,8 +123,10 @@ int main(void)
 	{
 		//int i = Enc_GetCnt(&CodeurGauche);
 		//printf("Ticks = %d\r\n",i);
+		//printf("%d\r\n",i);
+		//printf("%f\r\n",(float)DISTANCE_PER_TICK);
 
-		HAL_Delay(1000);
+		HAL_Delay(200);
 
 		/* USER CODE END WHILE */
 
@@ -196,8 +192,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM6){
-		//Ctrl_MotorControl();
-		Enc_ResetCnt(&CodeurGauche);
+		Ctrl_SpeedControl();
+		//printf("speed = %f mm/s\r\n",speed);
 	}
 }
 
