@@ -13,7 +13,7 @@
 
 /* Defines */
 // PPR = Pulse Per Revolution
-#define ENCODER_PPR 341.2		// Nombre de ticks par révolution
+#define ENCODER_PPR 1080		// Nombre de ticks par révolution
 #define WHEEL_DIAMETER 39.5		// Diamètre des roues en mm
 #define WHEEL_PERIMETER ((float)WHEEL_DIAMETER * (float)3.1415)	// Périmètre de la roue en mm
 #define DISTANCE_PER_TICK ((float)WHEEL_PERIMETER / (float)ENCODER_PPR)

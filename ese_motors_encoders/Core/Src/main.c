@@ -105,7 +105,7 @@ int main(void)
 	Mot_Init_SetTimer(&MoteurA, &htim1, TIM_CHANNEL_1);
 	Mot_Init_SetGPIOs(&MoteurA, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
 	Mot_SetDirection(&MoteurA, MOTOR_REVERSE);
-	Mot_SetDutyCycle(&MoteurA, 66);
+	Mot_SetDutyCycle(&MoteurA, 70);
 	//HAL_ADC_Start_IT(&hadc1);
 
 	// Initialisation du Codeur A
@@ -121,12 +121,12 @@ int main(void)
 	/* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		//int i = Enc_GetCnt(&CodeurGauche);
+		int i = Enc_GetCnt(&CodeurGauche);
 		//printf("Ticks = %d\r\n",i);
 		//printf("%d\r\n",i);
 		//printf("%f\r\n",(float)DISTANCE_PER_TICK);
 
-		HAL_Delay(200);
+		HAL_Delay(1000);
 
 		/* USER CODE END WHILE */
 
