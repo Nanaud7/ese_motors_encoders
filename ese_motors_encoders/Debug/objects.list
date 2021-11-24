@@ -2,7 +2,7 @@
 "./Core/Src/Encoders.o"
 "./Core/Src/Motors.o"
 "./Core/Src/Odometry.o"
-"./Core/Src/Shell.o"
+"./Core/Src/SHELL.o"
 "./Core/Src/adc.o"
 "./Core/Src/gpio.o"
 "./Core/Src/main.o"

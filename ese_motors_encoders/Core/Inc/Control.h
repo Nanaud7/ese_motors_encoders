@@ -11,7 +11,9 @@
  *
  * */
 
+#include "math.h"
 #include "tim.h"
+#include "Motors.h"
 #include "Encoders.h"
 
 /* Defines */
@@ -31,6 +33,10 @@ typedef struct Ctrl_Struct{
 } Ctrl_Struct;
 
 uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim);
+uint8_t Ctrl_Set_Kp(float new_Kp);
+uint8_t Ctrl_Set_Ki(float new_Ki);
+float Ctrl_Get_Kp();
+float Ctrl_Get_Ki();
 float Ctrl_SpeedControl();
 
 #endif /* INC_CONTROL_H_ */

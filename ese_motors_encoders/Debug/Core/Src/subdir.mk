@@ -9,7 +9,7 @@ C_SRCS += \
 ../Core/Src/Encoders.c \
 ../Core/Src/Motors.c \
 ../Core/Src/Odometry.c \
-../Core/Src/Shell.c \
+../Core/Src/SHELL.c \
 ../Core/Src/adc.c \
 ../Core/Src/gpio.c \
 ../Core/Src/main.c \
@@ -26,7 +26,7 @@ OBJS += \
 ./Core/Src/Encoders.o \
 ./Core/Src/Motors.o \
 ./Core/Src/Odometry.o \
-./Core/Src/Shell.o \
+./Core/Src/SHELL.o \
 ./Core/Src/adc.o \
 ./Core/Src/gpio.o \
 ./Core/Src/main.o \
@@ -43,7 +43,7 @@ C_DEPS += \
 ./Core/Src/Encoders.d \
 ./Core/Src/Motors.d \
 ./Core/Src/Odometry.d \
-./Core/Src/Shell.d \
+./Core/Src/SHELL.d \
 ./Core/Src/adc.d \
 ./Core/Src/gpio.d \
 ./Core/Src/main.d \

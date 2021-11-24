@@ -1,21 +1,20 @@
 #ifndef INC_SHELL_H_
 #define INC_SHELL_H_
 
-#include "usart.h"
-#include "string.h"
+#include <stdint.h>
 
-/* Variables */
-extern char charReceived;
+#define UART_DEVICE huart2
 
-/* Structures */
+#define _SHELL_FUNC_LIST_MAX_SIZE 64
 
-typedef struct Shell_Struct{
-	UART_HandleTypeDef* huart;
-} Shell_Struct;
+extern char c;
 
-/* Prototypes */
-uint8_t Shell_Init(Shell_Struct* Shell, UART_HandleTypeDef* huart);
-uint8_t Shell_CharReceived(Shell_Struct* Shell, char charReceived);
-uint8_t Shell_Request(Shell_Struct* Shell, char* cmd);
+char uart_read();
+int uart_write(char * s, uint16_t size);
+void uart_data_ready();
+void shell_char_received();
+void shell_init();
+int shell_add(char c, int (* pfunc)(int argc, char ** argv), char * description);
+int shell_exec(char c, char * buf);
 
 #endif /* INC_SHELL_H_ */

@@ -1,5 +1,12 @@
 #include "Control.h"
 
+double consigne = 20;
+double sommeErreur = 0;
+
+// Coefficients du correcteur PI
+float Kp = 1.00;
+float Ki = 0.02;
+
 /*
  *
  * INITIALIZATION FUNCTIONS
@@ -18,6 +25,24 @@ uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim){
 	return 0;
 }
 
+uint8_t Ctrl_Set_Kp(float new_Kp){
+	Kp = new_Kp;
+	return 0;
+}
+
+uint8_t Ctrl_Set_Ki(float new_Ki){
+	Ki = new_Ki;
+	return 0;
+}
+
+float Ctrl_Get_Kp(){
+	return Kp;
+}
+
+float Ctrl_Get_Ki(){
+	return Ki;
+}
+
 
 /*
  *
@@ -30,20 +55,26 @@ uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim){
  *	@retval 0
  */
 float Ctrl_SpeedControl(){
-	// Nombre de ticks du compteur depuis le dernier appel
-	int16_t ticks = Enc_GetCnt(&CodeurGauche);
-	//printf("%d\r\n",ticks);
+	// Réception du nombre de ticks du codeur
+	uint16_t ticks = Enc_GetCnt(&CodeurGauche);
 
-	// Calcul de la distance
-	//float distance = 0;
-	//if(ticks >= 0) distance = (float)ticks * (float)DISTANCE_PER_TICK;
-	//else distance = (-1) * (float)ticks * (float)DISTANCE_PER_TICK;
-	//printf("%f\r\n",distance);
+	// Calcul de la vitesse à part
+	//int freq_codeuse = SPEED_CONTROL_FREQUENCY * ticks;
+	//float speed = (float)freq_codeuse/(float)ENCODER_PPR;
 
-	// Calcul de la vitesse
-	float speed = (ticks / (float)ENCODER_PPR) * 50;
-	//printf("%f\r\n",(float)SPEED_CONTROL_PERIOD);
-	printf("%f tr/s\r\n",speed);
+	// Erreur entre la consigne et la vitesse calculée
+	//double erreur = consigne - speed;
+	float erreur = consigne - ticks;
+	sommeErreur += erreur;
 
-	return speed;
+	// Correcteur PI
+
+
+	float cmd = 50 + erreur * Kp + sommeErreur * Ki;
+	if(cmd >= 80) 		cmd = 80;
+	else if(cmd < 0) 	cmd = 0;
+
+	Mot_SetDutyCycle(&MoteurGauche,cmd);
+
+	return ticks;
 }

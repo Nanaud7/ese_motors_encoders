@@ -1,5 +1,5 @@
-Core/Src/Shell.o: ../Core/Src/Shell.c ../Core/Inc/Shell.h \
- ../Core/Inc/usart.h ../Core/Inc/main.h \
+Core/Src/SHELL.o: ../Core/Src/SHELL.c ../Core/Inc/shell.h \
+ ../Core/Inc/SHELL.h ../Core/Inc/usart.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -31,10 +31,12 @@ Core/Src/Shell.o: ../Core/Src/Shell.c ../Core/Inc/Shell.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/Shell.h ../Core/Inc/Motors.h ../Core/Inc/tim.h \
- ../Core/Inc/Control.h ../Core/Inc/Encoders.h
+ ../Core/Inc/Motors.h ../Core/Inc/tim.h ../Core/Inc/Control.h \
+ ../Core/Inc/Encoders.h ../Core/Inc/gpio.h
 
-../Core/Inc/Shell.h:
+../Core/Inc/shell.h:
+
+../Core/Inc/SHELL.h:
 
 ../Core/Inc/usart.h:
 
@@ -102,8 +104,6 @@ Core/Src/Shell.o: ../Core/Src/Shell.c ../Core/Inc/Shell.h \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 
-../Core/Inc/Shell.h:
-
 ../Core/Inc/Motors.h:
 
 ../Core/Inc/tim.h:
@@ -111,3 +111,5 @@ Core/Src/Shell.o: ../Core/Src/Shell.c ../Core/Inc/Shell.h \
 ../Core/Inc/Control.h:
 
 ../Core/Inc/Encoders.h:
+
+../Core/Inc/gpio.h:

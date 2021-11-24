@@ -27,6 +27,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
+#include "stdlib.h"
+#include "SHELL.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,8 +48,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-Shell_Struct Shell;
-//Enc_Struct CodeurGauche, CodeurDroite;
+uint8_t reglage_asserv = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,7 +59,29 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int fonction(int argc, char ** argv) {
+	printf("Fonction Test\r\n");
 
+	printf("argc = %d\r\n", argc);
+
+	for (int i = 0 ; i < argc ; i++) {
+		printf("arg numero %d = %s\r\n", i, argv[i]);
+	}
+
+	return 0;
+}
+
+int asserv(int argc, char ** argv) {
+	printf("Reglage asserv\r\n");
+
+	if(argc == 3){
+		Ctrl_Set_Kp(atof(argv[1]));
+		Ctrl_Set_Ki(atof(argv[2]));
+		reglage_asserv = 1;
+	}
+
+	return 0;
+}
 /* USER CODE END 0 */
 
 /**
@@ -96,16 +119,18 @@ int main(void)
 	MX_ADC1_Init();
 	/* USER CODE BEGIN 2 */
 	printf("\r\nese_motors_encoders\r\n");
+	//HAL_Delay(2000);
 
-	// Configuration de la réception UART avec interruption
-	//Shell_Init(&Shell, &huart2);
+	shell_init();
+	shell_add('f', fonction, "Une fonction inutile");
+	shell_add('a', asserv, "Reglage asservissement");
 
 	// Initialisation du Moteur A
-	Mot_Struct MoteurA;
-	Mot_Init_SetTimer(&MoteurA, &htim1, TIM_CHANNEL_1);
-	Mot_Init_SetGPIOs(&MoteurA, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
-	Mot_SetDirection(&MoteurA, MOTOR_REVERSE);
-	Mot_SetDutyCycle(&MoteurA, 70);
+	//Mot_Struct MoteurA;
+	Mot_Init_SetTimer(&MoteurGauche, &htim1, TIM_CHANNEL_1);
+	Mot_Init_SetGPIOs(&MoteurGauche, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
+	Mot_SetDirection(&MoteurGauche, MOTOR_REVERSE);
+	Mot_SetDutyCycle(&MoteurGauche, 0); // 66
 	//HAL_ADC_Start_IT(&hadc1);
 
 	// Initialisation du Codeur A
@@ -121,10 +146,18 @@ int main(void)
 	/* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		int i = Enc_GetCnt(&CodeurGauche);
+		//int i = Enc_GetCnt(&CodeurGauche);
 		//printf("Ticks = %d\r\n",i);
 		//printf("%d\r\n",i);
 		//printf("%f\r\n",(float)DISTANCE_PER_TICK);
+
+		if(reglage_asserv){
+			HAL_Delay(5000);
+			reglage_asserv = 0;
+			Mot_SetDutyCycle(&MoteurGauche, 0);
+			printf("Kp = %f\r\n",Ctrl_Get_Kp());
+			printf("Ki = %f\r\n",Ctrl_Get_Ki());
+		}
 
 		HAL_Delay(1000);
 
@@ -184,16 +217,17 @@ void SystemClock_Config(void)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 	if(huart->Instance == USART2){
-		//HAL_UART_Transmit(&huart2, (uint8_t*)&charReceived, 1, HAL_MAX_DELAY);
-		Shell_CharReceived(&Shell, charReceived);
-		HAL_UART_Receive_IT(&huart2, (uint8_t*)&charReceived, 1);
+		shell_char_received();
+		HAL_UART_Receive_IT(&huart2, (uint8_t*)&c, 1);
 	}
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM6){
-		Ctrl_SpeedControl();
-		//printf("speed = %f mm/s\r\n",speed);
+		//Ctrl_SpeedControl();
+
+		if(reglage_asserv)
+			printf("%f\r\n",Ctrl_SpeedControl());
 	}
 }
 

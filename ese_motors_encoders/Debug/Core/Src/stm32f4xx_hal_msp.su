@@ -1,2 +1,1 @@
-stm32f4xx_hal_msp.c:68:6:HAL_MspInit	16	static
-stm32f4xx_hal_msp.c:92:1:__io_putchar	16	static
+stm32f4xx_hal_msp.c:64:6:HAL_MspInit	16	static
