@@ -1,6 +1,6 @@
 #include "Control.h"
 
-double consigne = 20;
+double consigne = 0;
 double sommeErreur = 0;
 
 // Coefficients du correcteur PI
@@ -22,6 +22,12 @@ uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim){
 	Control->Timer = htim;
 
 	HAL_TIM_Base_Start_IT(Control->Timer);
+	return 0;
+}
+
+uint8_t Ctrl_Set_Consigne(double new_Consigne){
+	consigne = new_Consigne;
+	printf("New consigne = %f\r\n",consigne);
 	return 0;
 }
 
@@ -68,8 +74,6 @@ float Ctrl_SpeedControl(){
 	sommeErreur += erreur;
 
 	// Correcteur PI
-
-
 	float cmd = 50 + erreur * Kp + sommeErreur * Ki;
 	if(cmd >= 80) 		cmd = 80;
 	else if(cmd < 0) 	cmd = 0;

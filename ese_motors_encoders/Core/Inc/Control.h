@@ -33,6 +33,7 @@ typedef struct Ctrl_Struct{
 } Ctrl_Struct;
 
 uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim);
+uint8_t Ctrl_Set_Consigne(double new_Consigne);
 uint8_t Ctrl_Set_Kp(float new_Kp);
 uint8_t Ctrl_Set_Ki(float new_Ki);
 float Ctrl_Get_Kp();

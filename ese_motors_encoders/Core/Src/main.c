@@ -78,6 +78,7 @@ int asserv(int argc, char ** argv) {
 		Ctrl_Set_Kp(atof(argv[1]));
 		Ctrl_Set_Ki(atof(argv[2]));
 		reglage_asserv = 1;
+		Ctrl_Set_Consigne(20);
 	}
 
 	return 0;
@@ -118,9 +119,6 @@ int main(void)
 	MX_TIM6_Init();
 	MX_ADC1_Init();
 	/* USER CODE BEGIN 2 */
-	printf("\r\nese_motors_encoders\r\n");
-	//HAL_Delay(2000);
-
 	shell_init();
 	shell_add('f', fonction, "Une fonction inutile");
 	shell_add('a', asserv, "Reglage asservissement");
@@ -130,7 +128,7 @@ int main(void)
 	Mot_Init_SetTimer(&MoteurGauche, &htim1, TIM_CHANNEL_1);
 	Mot_Init_SetGPIOs(&MoteurGauche, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
 	Mot_SetDirection(&MoteurGauche, MOTOR_REVERSE);
-	Mot_SetDutyCycle(&MoteurGauche, 0); // 66
+	//Mot_SetDutyCycle(&MoteurGauche, 0); // 66
 	//HAL_ADC_Start_IT(&hadc1);
 
 	// Initialisation du Codeur A
@@ -152,14 +150,16 @@ int main(void)
 		//printf("%f\r\n",(float)DISTANCE_PER_TICK);
 
 		if(reglage_asserv){
-			HAL_Delay(5000);
-			reglage_asserv = 0;
-			Mot_SetDutyCycle(&MoteurGauche, 0);
+			HAL_Delay(2000);
+			//Mot_SetDutyCycle(&MoteurGauche, 0);
 			printf("Kp = %f\r\n",Ctrl_Get_Kp());
 			printf("Ki = %f\r\n",Ctrl_Get_Ki());
+			reglage_asserv = 0;
+			Ctrl_Set_Consigne(0);
+			HAL_Delay(1000);
 		}
 
-		HAL_Delay(1000);
+		//HAL_Delay(1000);
 
 		/* USER CODE END WHILE */
 
@@ -225,9 +225,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM6){
 		//Ctrl_SpeedControl();
+		//printf("%f\r\n",Ctrl_SpeedControl());
 
-		if(reglage_asserv)
-			printf("%f\r\n",Ctrl_SpeedControl());
+		float result = Ctrl_SpeedControl();
+
+		if(reglage_asserv) printf("%f\r\n",result);
+
 	}
 }
 
