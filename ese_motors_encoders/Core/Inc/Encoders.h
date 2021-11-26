@@ -13,7 +13,7 @@
 
 /* Defines */
 // PPR = Pulse Per Revolution
-#define ENCODER_PPR 1122		// Nombre de ticks par révolution (1080 mesuré)
+#define ENCODER_PPR 900			// Nombre de ticks par révolution (900 mesuré)
 #define WHEEL_DIAMETER 39.5		// Diamètre des roues en mm
 #define WHEEL_PERIMETER ((float)WHEEL_DIAMETER * (float)3.1415)	// Périmètre de la roue en mm
 #define DISTANCE_PER_TICK ((float)WHEEL_PERIMETER / (float)ENCODER_PPR)
@@ -27,8 +27,8 @@ typedef struct Enc_Struct{
 } Enc_Struct;
 
 /* Variables */
-extern Enc_Struct CodeurGauche;
-extern Enc_Struct CodeurDroite;
+//extern Enc_Struct CodeurGauche;
+//extern Enc_Struct CodeurDroite;
 
 /* Prototypes */
 uint8_t Enc_Init_SetTimer(Enc_Struct* Encoder, TIM_HandleTypeDef *htim, uint32_t Channel_A, uint32_t Channel_B);

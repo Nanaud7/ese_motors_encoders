@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "stdlib.h"
+#include "CONFIG.h"
 #include "SHELL.h"
 /* USER CODE END Includes */
 
@@ -49,6 +50,7 @@
 
 /* USER CODE BEGIN PV */
 uint8_t reglage_asserv = 0;
+uint32_t cpt = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -128,7 +130,8 @@ int main(void)
 	Mot_Init_SetTimer(&MoteurGauche, &htim1, TIM_CHANNEL_1);
 	Mot_Init_SetGPIOs(&MoteurGauche, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
 	Mot_SetDirection(&MoteurGauche, MOTOR_REVERSE);
-	//Mot_SetDutyCycle(&MoteurGauche, 0); // 66
+
+	//Mot_SetDutyCycle(&MoteurGauche, 66); // 66
 	//HAL_ADC_Start_IT(&hadc1);
 
 	// Initialisation du Codeur A
@@ -145,10 +148,12 @@ int main(void)
 	while (1)
 	{
 		//int i = Enc_GetCnt(&CodeurGauche);
+		//printf("cpt = %d\r\n",cpt);
 		//printf("Ticks = %d\r\n",i);
 		//printf("%d\r\n",i);
 		//printf("%f\r\n",(float)DISTANCE_PER_TICK);
 
+		/*
 		if(reglage_asserv){
 			HAL_Delay(2000);
 			//Mot_SetDutyCycle(&MoteurGauche, 0);
@@ -158,6 +163,9 @@ int main(void)
 			Ctrl_Set_Consigne(0);
 			HAL_Delay(1000);
 		}
+		*/
+
+
 
 		//HAL_Delay(1000);
 
@@ -224,13 +232,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM6){
-		//Ctrl_SpeedControl();
-		//printf("%f\r\n",Ctrl_SpeedControl());
-
-		float result = Ctrl_SpeedControl();
-
-		if(reglage_asserv) printf("%f\r\n",result);
-
+		float speed_out = Ctrl_SpeedControl();
+		printf("%f\r\n", speed_out);
 	}
 }
 

@@ -6,8 +6,8 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/Control.c \
-../Core/Src/Encoders.c \
-../Core/Src/Motors.c \
+../Core/Src/ENCODERS.c \
+../Core/Src/MOTORS.c \
 ../Core/Src/Odometry.c \
 ../Core/Src/SHELL.c \
 ../Core/Src/adc.c \
@@ -23,8 +23,8 @@ C_SRCS += \
 
 OBJS += \
 ./Core/Src/Control.o \
-./Core/Src/Encoders.o \
-./Core/Src/Motors.o \
+./Core/Src/ENCODERS.o \
+./Core/Src/MOTORS.o \
 ./Core/Src/Odometry.o \
 ./Core/Src/SHELL.o \
 ./Core/Src/adc.o \
@@ -40,8 +40,8 @@ OBJS += \
 
 C_DEPS += \
 ./Core/Src/Control.d \
-./Core/Src/Encoders.d \
-./Core/Src/Motors.d \
+./Core/Src/ENCODERS.d \
+./Core/Src/MOTORS.d \
 ./Core/Src/Odometry.d \
 ./Core/Src/SHELL.d \
 ./Core/Src/adc.d \

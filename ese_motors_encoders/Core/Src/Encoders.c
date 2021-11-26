@@ -1,8 +1,4 @@
-#include "Encoders.h"
-
-/* Variables */
-Enc_Struct CodeurGauche;
-Enc_Struct CodeurDroite;
+#include <ENCODERS.h>
 
 /*
  *

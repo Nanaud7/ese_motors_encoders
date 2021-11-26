@@ -2,9 +2,9 @@
 #define INC_ODOMETRY_H_
 
 /* Includes */
+#include <ENCODERS.h>
 #include "stdint.h"
 #include "math.h"
-#include "Encoders.h"
 
 /* Structures */
 typedef struct Odo_Struct{

@@ -1,6 +1,6 @@
 "./Core/Src/Control.o"
-"./Core/Src/Encoders.o"
-"./Core/Src/Motors.o"
+"./Core/Src/ENCODERS.o"
+"./Core/Src/MOTORS.o"
 "./Core/Src/Odometry.o"
 "./Core/Src/SHELL.o"
 "./Core/Src/adc.o"

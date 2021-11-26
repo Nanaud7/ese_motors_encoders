@@ -11,10 +11,11 @@
  *
  * */
 
+#include "CONFIG.h"
+#include "ENCODERS.h"
+#include "MOTORS.h"
 #include "math.h"
 #include "tim.h"
-#include "Motors.h"
-#include "Encoders.h"
 
 /* Defines */
 #define SPEED_CONTROL_FREQUENCY 50

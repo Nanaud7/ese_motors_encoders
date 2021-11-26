@@ -26,7 +26,6 @@
 #include "tim.h"
 
 
-
 /* Structure */
 
 // Mot_Struct contient tous les paramètres relatifs à un moteur
@@ -52,8 +51,8 @@ typedef struct Mot_Struct{
 
 #define COUNTER_PERIOD 3360
 
-extern Mot_Struct MoteurGauche;
-extern Mot_Struct MoteurDroite;
+//extern Mot_Struct MoteurGauche;
+//extern Mot_Struct MoteurDroite;
 
 /* Prototypes */
 uint8_t Mot_Init_SetTimer(Mot_Struct* Motor, TIM_HandleTypeDef *htim, uint32_t Channel);
