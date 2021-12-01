@@ -1,7 +1,5 @@
-#include "shell.h"
-
+#include <BOTterfly-H/shell.h>
 #include <stdio.h>
-#include <SHELL.h>
 
 #include "usart.h"
 #include "gpio.h"

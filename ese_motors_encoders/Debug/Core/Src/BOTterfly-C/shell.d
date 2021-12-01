@@ -1,5 +1,5 @@
-Core/Src/SHELL.o: ../Core/Src/SHELL.c ../Core/Inc/shell.h \
- ../Core/Inc/SHELL.h ../Core/Inc/usart.h ../Core/Inc/main.h \
+Core/Src/BOTterfly-C/shell.o: ../Core/Src/BOTterfly-C/shell.c \
+ ../Core/Inc/BOTterfly-H/shell.h ../Core/Inc/usart.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -31,13 +31,9 @@ Core/Src/SHELL.o: ../Core/Src/SHELL.c ../Core/Inc/shell.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/MOTORS.h ../Core/Inc/tim.h ../Core/Inc/Control.h \
- ../Core/Inc/CONFIG.h ../Core/Inc/MOTORS.h ../Core/Inc/ENCODERS.h \
  ../Core/Inc/gpio.h
 
-../Core/Inc/shell.h:
-
-../Core/Inc/SHELL.h:
+../Core/Inc/BOTterfly-H/shell.h:
 
 ../Core/Inc/usart.h:
 
@@ -104,17 +100,5 @@ Core/Src/SHELL.o: ../Core/Src/SHELL.c ../Core/Inc/shell.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-
-../Core/Inc/MOTORS.h:
-
-../Core/Inc/tim.h:
-
-../Core/Inc/Control.h:
-
-../Core/Inc/CONFIG.h:
-
-../Core/Inc/MOTORS.h:
-
-../Core/Inc/ENCODERS.h:
 
 ../Core/Inc/gpio.h:

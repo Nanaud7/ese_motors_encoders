@@ -1,10 +1,10 @@
-#include "Control.h"
+#include <BOTterfly-H/asserv.h>
 
-double consigne = 0.100;
+double consigne = 0.150;
 
 // Coefficients du correcteur PI
-float Kp = 150.0; 	// 1.00
-float Ki = 15.0; 	// 0.02
+float Kp = 100.0; 	// 1.00
+float Ki = 5.0; 	// 0.02
 
 /*
  *
@@ -63,13 +63,13 @@ float Ctrl_SpeedControl(){
 	static double sommeErreur = 0;
 
 	// Réception du nombre de ticks du codeur
-	uint16_t ticks = Enc_GetCnt(&CodeurGauche);
+	uint16_t ticks = ENC_GetCnt(&CodeurGauche);
 
 	// Calcul de la vitesse à part
 	int freq_codeuse = SPEED_CONTROL_FREQUENCY * ticks;
 	//float speed = (float)freq_codeuse/(float)ENCODER_PPR; 				// Vitesse en tour/min
 	//float speed = (float)freq_codeuse * (float)DISTANCE_PER_TICK;			// Vitesse en mm/sec
-	float speed = ((float)freq_codeuse * (float)DISTANCE_PER_TICK) / 1000;	// Vitesse en m/sec
+	float speed = ((float)freq_codeuse * (float)ENC_DIST_PER_TICK) / 1000;	// Vitesse en m/sec
 
 	// Erreur entre la consigne et la vitesse calculée
 	//double erreur = consigne - speed;
@@ -77,11 +77,11 @@ float Ctrl_SpeedControl(){
 	sommeErreur += erreur;
 
 	// Correcteur PI
-	float cmd = 60 + erreur * Kp + sommeErreur * Ki;
+	float cmd = erreur * Kp + sommeErreur * Ki;
 	if(cmd >= 80) 		cmd = 80;
 	else if(cmd < 0) 	cmd = 0;
 
-	Mot_SetDutyCycle(&MoteurGauche,cmd);
+	MOT_SetDutyCycle(&MoteurGauche,cmd);
 
 	return speed;
 }

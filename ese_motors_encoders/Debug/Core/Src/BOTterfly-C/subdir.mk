@@ -5,43 +5,28 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/adc.c \
-../Core/Src/gpio.c \
-../Core/Src/main.c \
-../Core/Src/stm32f4xx_hal_msp.c \
-../Core/Src/stm32f4xx_it.c \
-../Core/Src/syscalls.c \
-../Core/Src/sysmem.c \
-../Core/Src/system_stm32f4xx.c \
-../Core/Src/tim.c \
-../Core/Src/usart.c 
+../Core/Src/BOTterfly-C/asserv.c \
+../Core/Src/BOTterfly-C/encoder.c \
+../Core/Src/BOTterfly-C/motor.c \
+../Core/Src/BOTterfly-C/odo.c \
+../Core/Src/BOTterfly-C/shell.c 
 
 OBJS += \
-./Core/Src/adc.o \
-./Core/Src/gpio.o \
-./Core/Src/main.o \
-./Core/Src/stm32f4xx_hal_msp.o \
-./Core/Src/stm32f4xx_it.o \
-./Core/Src/syscalls.o \
-./Core/Src/sysmem.o \
-./Core/Src/system_stm32f4xx.o \
-./Core/Src/tim.o \
-./Core/Src/usart.o 
+./Core/Src/BOTterfly-C/asserv.o \
+./Core/Src/BOTterfly-C/encoder.o \
+./Core/Src/BOTterfly-C/motor.o \
+./Core/Src/BOTterfly-C/odo.o \
+./Core/Src/BOTterfly-C/shell.o 
 
 C_DEPS += \
-./Core/Src/adc.d \
-./Core/Src/gpio.d \
-./Core/Src/main.d \
-./Core/Src/stm32f4xx_hal_msp.d \
-./Core/Src/stm32f4xx_it.d \
-./Core/Src/syscalls.d \
-./Core/Src/sysmem.d \
-./Core/Src/system_stm32f4xx.d \
-./Core/Src/tim.d \
-./Core/Src/usart.d 
+./Core/Src/BOTterfly-C/asserv.d \
+./Core/Src/BOTterfly-C/encoder.d \
+./Core/Src/BOTterfly-C/motor.d \
+./Core/Src/BOTterfly-C/odo.d \
+./Core/Src/BOTterfly-C/shell.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Core/Src/%.o: ../Core/Src/%.c Core/Src/subdir.mk
+Core/Src/BOTterfly-C/%.o: ../Core/Src/BOTterfly-C/%.c Core/Src/BOTterfly-C/subdir.mk
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 

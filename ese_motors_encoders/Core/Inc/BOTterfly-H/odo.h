@@ -2,15 +2,15 @@
 #define INC_ODOMETRY_H_
 
 /* Includes */
-#include <ENCODERS.h>
+#include <BOTterfly-H/encoder.h>
 #include "stdint.h"
 #include "math.h"
 
 /* Structures */
 typedef struct Odo_Struct{
 	// Encoders
-	struct Enc_Struct *LeftEncoder;
-	struct Enc_Struct *RightEncoder;
+	struct ENC_HandleTypeDef *LeftEncoder;
+	struct ENC_HandleTypeDef *RightEncoder;
 
 	// Robot position
 	double x;
@@ -25,7 +25,7 @@ typedef struct Odo_Struct{
 #define CENTER_DISTANCE 1 	// Entraxe
 
 /* Prototypes */
-uint8_t Odo_Init(Odo_Struct* Odo, struct Enc_Struct* LeftEncoder, struct Enc_Struct* RightEncoder);
+uint8_t Odo_Init(Odo_Struct* Odo, struct ENC_HandleTypeDef* LeftEncoder, struct ENC_HandleTypeDef* RightEncoder);
 uint8_t Odo_Odometry(Odo_Struct* Odo);
 
 #endif /* INC_ODOMETRY_H_ */

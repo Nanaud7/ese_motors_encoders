@@ -1,0 +1,3 @@
+encoder.c:24:9:ENC_InitTimer	24	static
+encoder.c:43:9:ENC_GetCnt	24	static
+encoder.c:55:9:ENC_ResetCnt	16	static

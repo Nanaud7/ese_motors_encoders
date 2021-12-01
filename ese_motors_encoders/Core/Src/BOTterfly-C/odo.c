@@ -1,4 +1,4 @@
-#include "Odometry.h"
+#include <BOTterfly-H/odo.h>
 
 /*
  *
@@ -6,7 +6,7 @@
  *
  */
 
-uint8_t Odo_Init(Odo_Struct* Odo, Enc_Struct* LeftEncoder, Enc_Struct* RightEncoder){
+uint8_t Odo_Init(Odo_Struct* Odo, ENC_HandleTypeDef* LeftEncoder, ENC_HandleTypeDef* RightEncoder){
 	Odo->LeftEncoder = LeftEncoder;
 	Odo->RightEncoder = RightEncoder;
 

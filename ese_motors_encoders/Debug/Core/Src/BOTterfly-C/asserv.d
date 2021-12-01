@@ -1,4 +1,5 @@
-Core/Src/ENCODERS.o: ../Core/Src/ENCODERS.c ../Core/Inc/ENCODERS.h \
+Core/Src/BOTterfly-C/asserv.o: ../Core/Src/BOTterfly-C/asserv.c \
+ ../Core/Inc/BOTterfly-H/asserv.h ../Core/Inc/BOTterfly-H/encoder.h \
  ../Core/Inc/tim.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
@@ -31,10 +32,11 @@ Core/Src/ENCODERS.o: ../Core/Src/ENCODERS.c ../Core/Inc/ENCODERS.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/SHELL.h ../Core/Inc/MOTORS.h ../Core/Inc/Control.h \
- ../Core/Inc/CONFIG.h ../Core/Inc/MOTORS.h ../Core/Inc/ENCODERS.h
+ ../Core/Inc/BOTterfly-H/modules.h ../Core/Inc/BOTterfly-H/motor.h
 
-../Core/Inc/ENCODERS.h:
+../Core/Inc/BOTterfly-H/asserv.h:
+
+../Core/Inc/BOTterfly-H/encoder.h:
 
 ../Core/Inc/tim.h:
 
@@ -102,14 +104,6 @@ Core/Src/ENCODERS.o: ../Core/Src/ENCODERS.c ../Core/Inc/ENCODERS.h \
 
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 
-../Core/Inc/SHELL.h:
+../Core/Inc/BOTterfly-H/modules.h:
 
-../Core/Inc/MOTORS.h:
-
-../Core/Inc/Control.h:
-
-../Core/Inc/CONFIG.h:
-
-../Core/Inc/MOTORS.h:
-
-../Core/Inc/ENCODERS.h:
+../Core/Inc/BOTterfly-H/motor.h:

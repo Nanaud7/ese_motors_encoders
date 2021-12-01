@@ -28,8 +28,10 @@
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "stdlib.h"
-#include "CONFIG.h"
-#include "SHELL.h"
+#include <BOTterfly-H/modules.h>
+#include <BOTterfly-H/shell.h>
+#include <BOTterfly-H/asserv.h>
+#include <BOTterfly-H/motor.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -127,15 +129,14 @@ int main(void)
 
 	// Initialisation du Moteur A
 	//Mot_Struct MoteurA;
-	Mot_Init_SetTimer(&MoteurGauche, &htim1, TIM_CHANNEL_1);
-	Mot_Init_SetGPIOs(&MoteurGauche, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
-	Mot_SetDirection(&MoteurGauche, MOTOR_REVERSE);
-
-	//Mot_SetDutyCycle(&MoteurGauche, 66); // 66
+	MOT_InitTimer(&MoteurGauche, &htim1, TIM_CHANNEL_1);
+	MOT_InitGPIOs(&MoteurGauche, GPIOC, GPIO_PIN_0, GPIOC, GPIO_PIN_1); // IN1:PC0 et IN2:PC1
+	MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_REVERSE);
+	//MOT_SetDutyCycle(&MoteurGauche, 68); // 66
 	//HAL_ADC_Start_IT(&hadc1);
 
 	// Initialisation du Codeur A
-	Enc_Init_SetTimer(&CodeurGauche, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
+	ENC_InitTimer(&CodeurGauche, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
 
 	// Initialisation de l'asservissement
 	Ctrl_Struct Control;

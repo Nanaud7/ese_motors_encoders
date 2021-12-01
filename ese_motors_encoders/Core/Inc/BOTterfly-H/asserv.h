@@ -11,9 +11,9 @@
  *
  * */
 
-#include "CONFIG.h"
-#include "ENCODERS.h"
-#include "MOTORS.h"
+#include <BOTterfly-H/encoder.h>
+#include <BOTterfly-H/modules.h>
+#include <BOTterfly-H/motor.h>
 #include "math.h"
 #include "tim.h"
 
