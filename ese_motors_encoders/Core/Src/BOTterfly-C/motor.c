@@ -30,7 +30,7 @@ uint8_t MOT_InitTimer(MOT_HandleTypeDef* Motor, TIM_HandleTypeDef *htim, uint32_
 	return 0;
 }
 
-/*	@brief	Init of the MOT_HandleTypeDef structure with the GPIOs settings
+/**	@brief	Init of the MOT_HandleTypeDef structure with the GPIOs settings
  *	@param	Motor is a MOT_HandleTypeDef
  *	@param 	IN1_GPIOx is a GPIOx where x can be (A..K) to select the GPIO peripheral
  *  @param  IN1_GPIO_Pin specifies the port bit
@@ -43,6 +43,17 @@ void MOT_InitGPIOs(MOT_HandleTypeDef* Motor, GPIO_TypeDef* IN1_GPIOx, uint16_t I
 	Motor->IN1_GPIO_Pin = IN1_GPIO_Pin;
 	Motor->IN2_GPIOx = IN2_GPIOx;
 	Motor->IN2_GPIO_Pin = IN2_GPIO_Pin;
+}
+
+
+/**	@brief	Set coefficient for the error correction of the motor
+ *	@param	Motor is a MOT_HandleTypeDef
+ *	@param 	Kp coefficient
+ *	@param 	Ki coefficient
+ */
+void MOT_SetCoeff(MOT_HandleTypeDef* Motor, float Kp, float Ki){
+	Motor->Kp = Kp;
+	Motor->Ki = Ki;
 }
 
 

@@ -43,15 +43,19 @@
  * @brief	MOT Handle structure definition
  */
 typedef struct MOT_HandleTypeDef{
-	TIM_HandleTypeDef* Timer_Handle;	/* Timer Handle			*/
-	uint32_t Timer_Channel;				/* Timer Channel		*/
+	TIM_HandleTypeDef* Timer_Handle;	/* Timer Handle					*/
+	uint32_t Timer_Channel;				/* Timer Channel				*/
 
-	GPIO_TypeDef* IN1_GPIOx;			/* GPIO Port for IN1	*/
-	uint16_t IN1_GPIO_Pin;				/* GPIO Pin for IN1		*/
-	GPIO_TypeDef* IN2_GPIOx;			/* GPIO Port for IN2	*/
-	uint16_t IN2_GPIO_Pin;				/* GPIO Pin for IN2		*/
+	GPIO_TypeDef* IN1_GPIOx;			/* GPIO Port for IN1			*/
+	uint16_t IN1_GPIO_Pin;				/* GPIO Pin for IN1				*/
+	GPIO_TypeDef* IN2_GPIOx;			/* GPIO Port for IN2			*/
+	uint16_t IN2_GPIO_Pin;				/* GPIO Pin for IN2				*/
 
-	ADC_HandleTypeDef* ADC_Handle;		/* ADC Handle			*/
+	ADC_HandleTypeDef* ADC_Handle;		/* ADC Handle					*/
+
+	float Kp;							/* Coeff Kp error correction	*/
+	float Ki;							/* Coeff Ki error correction	*/
+	double sommeErreur;					/* sommeErreur	 				*/
 } MOT_HandleTypeDef;
 
 /* End of exported types -----------------------------------------------------*/
@@ -80,6 +84,7 @@ typedef struct MOT_HandleTypeDef{
 uint8_t MOT_InitTimer(MOT_HandleTypeDef* Motor, TIM_HandleTypeDef *htim, uint32_t Channel);
 void MOT_InitGPIOs(MOT_HandleTypeDef* Motor, GPIO_TypeDef* IN1_GPIOx, uint16_t IN1_GPIO_Pin,
 		GPIO_TypeDef* IN2_GPIOx, uint16_t IN2_GPIO_Pin);
+void MOT_SetCoeff(MOT_HandleTypeDef* Motor, float Kp, float Ki);
 
 /**
  * @brief Motor driving and control functions

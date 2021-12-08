@@ -30,6 +30,8 @@ typedef struct ENC_HandleTypeDef{
 	TIM_HandleTypeDef* Timer;	/* Timer Handle			*/
 	uint32_t Timer_Channel_A;	/* Timer Channel		*/
 	uint32_t Timer_Channel_B;	/* Timer Channel		*/
+
+	uint16_t TicksPerRev;		/* Ticks per revolution	*/
 } ENC_HandleTypeDef;
 
 /* End of exported types -----------------------------------------------------*/
@@ -56,6 +58,7 @@ typedef struct ENC_HandleTypeDef{
  * @brief Encoder initialization functions
  */
 uint8_t ENC_InitTimer(ENC_HandleTypeDef* Encoder, TIM_HandleTypeDef *htim, uint32_t Channel_A, uint32_t Channel_B);
+void ENC_SetTicksPerRev(ENC_HandleTypeDef* Encoder, uint16_t ticksPerRev);
 
 /**
  * @brief Encoder retrieving and control functions

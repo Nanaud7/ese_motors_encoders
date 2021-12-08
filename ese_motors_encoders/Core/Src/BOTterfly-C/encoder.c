@@ -32,6 +32,14 @@ uint8_t ENC_InitTimer(ENC_HandleTypeDef* Encoder, TIM_HandleTypeDef *htim, uint3
 	return 0;
 }
 
+/*	@brief	Set the TicksPerRev value of the encoder
+ *	@param	Encoder is a ENC_HandleTypeDef
+ *	@param 	ticksPerRev value
+ */
+void ENC_SetTicksPerRev(ENC_HandleTypeDef* Encoder, uint16_t ticksPerRev){
+	Encoder->TicksPerRev = ticksPerRev;
+}
+
 /**
  * @defgroup Encoder retrieving and control functions
  */

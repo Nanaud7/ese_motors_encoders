@@ -13,4 +13,7 @@ struct MOT_HandleTypeDef MoteurDroite;
 struct ENC_HandleTypeDef CodeurGauche;
 struct ENC_HandleTypeDef CodeurDroite;
 
+/* ASSERVISSEMENT / CONTROL */
+struct ASSERV_HandleTypeDef Asserv;
+
 #endif /* INC_CONFIG_H_ */

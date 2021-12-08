@@ -14,7 +14,7 @@
 #include <BOTterfly-H/encoder.h>
 #include <BOTterfly-H/modules.h>
 #include <BOTterfly-H/motor.h>
-#include "math.h"
+#include <math.h>
 #include "tim.h"
 
 /* Defines */
@@ -23,7 +23,7 @@
 
 /* Structure */
 // Mot_Struct contient tous les paramètres relatifs à un moteur
-typedef struct Ctrl_Struct{
+typedef struct ASSERV_HandleTypeDef{
 	// Timer
 	TIM_HandleTypeDef* Timer;
 	// Odometry
@@ -31,14 +31,14 @@ typedef struct Ctrl_Struct{
 	// Motors
 	struct Mot_Struct *MotorLeft;
 	struct Mot_Struct *MotorRight;
-} Ctrl_Struct;
+} ASSERV_HandleTypeDef;
 
-uint8_t Ctrl_Init_SetTimer(Ctrl_Struct* Control, TIM_HandleTypeDef *htim);
+uint8_t Ctrl_Init_SetTimer(ASSERV_HandleTypeDef* Control, TIM_HandleTypeDef *htim);
 uint8_t Ctrl_Set_Consigne(double new_Consigne);
 uint8_t Ctrl_Set_Kp(float new_Kp);
 uint8_t Ctrl_Set_Ki(float new_Ki);
 float Ctrl_Get_Kp();
 float Ctrl_Get_Ki();
-float Ctrl_SpeedControl();
+float Ctrl_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder);
 
 #endif /* INC_CONTROL_H_ */
