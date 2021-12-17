@@ -1,8 +1,7 @@
 main.c:67:5:fonction	24	static
-main.c:79:5:asserv	16	static
-main.c:97:5:main	16	static
-main.c:206:6:SystemClock_Config	88	static
-main.c:249:6:HAL_GPIO_EXTI_Callback	16	static
+main.c:85:5:main	24	static
+main.c:205:6:SystemClock_Config	88	static
+main.c:248:6:HAL_GPIO_EXTI_Callback	16	static
 main.c:262:6:HAL_UART_RxCpltCallback	16	static
 main.c:269:6:HAL_TIM_PeriodElapsedCallback	40	static
 main.c:283:6:HAL_ADC_ConvCpltCallback	16	static

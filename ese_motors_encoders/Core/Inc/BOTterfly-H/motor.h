@@ -55,7 +55,8 @@ typedef struct MOT_HandleTypeDef{
 
 	float Kp;							/* Coeff Kp error correction	*/
 	float Ki;							/* Coeff Ki error correction	*/
-	double sommeErreur;					/* sommeErreur	 				*/
+	double siPrecedente;					/* Commande precedente 			*/
+	double erreurPrecedente;					/* Erreur n-1	 				*/
 } MOT_HandleTypeDef;
 
 /* End of exported types -----------------------------------------------------*/

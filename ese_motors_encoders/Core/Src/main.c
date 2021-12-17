@@ -65,7 +65,7 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 int fonction(int argc, char ** argv) {
-	printf("Fonction Test\r\n");
+	printf("Une fonction inutile\r\n");
 
 	printf("argc = %d\r\n", argc);
 
@@ -76,75 +76,67 @@ int fonction(int argc, char ** argv) {
 	return 0;
 }
 
-int asserv(int argc, char ** argv) {
-	printf("Reglage asserv\r\n");
-
-	if(argc == 3){
-		//Ctrl_Set_Kp(atof(argv[1]));
-		//Ctrl_Set_Ki(atof(argv[2]));
-		reglage = 1;
-		Ctrl_Set_Consigne(20);
-	}
-
-	return 0;
-}
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
+	/* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
+	/* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART2_UART_Init();
-  MX_TIM1_Init();
-  MX_TIM2_Init();
-  MX_TIM6_Init();
-  MX_ADC1_Init();
-  MX_TIM3_Init();
-  /* USER CODE BEGIN 2 */
-	shell_init();
-	shell_add('f', fonction, "Une fonction inutile");
-	shell_add('a', asserv, "Reglage asservissement");
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_USART2_UART_Init();
+	MX_TIM1_Init();
+	MX_TIM2_Init();
+	MX_TIM6_Init();
+	MX_ADC1_Init();
+	MX_TIM3_Init();
+	/* USER CODE BEGIN 2 */
+
+	/* Initialisation du shell ---------------------------------------------------*/
+
+	shell_init(&huart2);
+	shell_add("f", fonction, "Une fonction inutile");
+
+	/* Fin initialisation du shell -----------------------------------------------*/
 
 	/* Initialisation des moteurs ------------------------------------------------*/
 
 	/* Moteur Gauche */
 	MOT_InitTimer(&MoteurGauche, &htim1, TIM_CHANNEL_1); // PA8 / D7
 	MOT_InitGPIOs(&MoteurGauche, GPIOC, GPIO_PIN_1, GPIOC, GPIO_PIN_0); // IN1:PC0 et IN2:PC1
-	MOT_SetCoeff(&MoteurGauche, 850, 0.05);
+	MOT_SetCoeff(&MoteurGauche, 2.75, 0.75);
 	MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_REVERSE);
-	MOT_SetDutyCycle(&MoteurGauche, 65); // 66
+	MOT_SetDutyCycle(&MoteurGauche, 0); // 66
 	//HAL_ADC_Start_IT(&hadc1);
 
 	/* Moteur Droite */
 	MOT_InitTimer(&MoteurDroite, &htim1, TIM_CHANNEL_2); // PA9 / D8
 	MOT_InitGPIOs(&MoteurDroite, GPIOB, GPIO_PIN_8, GPIOB, GPIO_PIN_9); // IN1:PB8 et IN2:PB9
-	MOT_SetCoeff(&MoteurDroite, 550, 0.05);
+	MOT_SetCoeff(&MoteurDroite, 2.75, 0.75);
 	MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_REVERSE);
-	MOT_SetDutyCycle(&MoteurDroite, 65);
+	MOT_SetDutyCycle(&MoteurDroite, 0);
 
 	/* Fin initialisation des moteurs --------------------------------------------*/
 
@@ -152,11 +144,11 @@ int main(void)
 
 	/* Encodeur Gauche */
 	ENC_InitTimer(&CodeurGauche, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
-	ENC_SetTicksPerRev(&CodeurGauche, 1488);
+	ENC_SetTicksPerRev(&CodeurGauche, 1355.2);
 
 	/* Encodeur Droite */
 	ENC_InitTimer(&CodeurDroite, &htim3, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA6 et PhB:PA7
-	ENC_SetTicksPerRev(&CodeurDroite, 780);
+	ENC_SetTicksPerRev(&CodeurDroite, 1364.2);
 
 	/* Fin initialisation des encodeurs ------------------------------------------*/
 
@@ -164,20 +156,28 @@ int main(void)
 	Ctrl_Init_SetTimer(&Asserv, &htim6);
 
 	reglage = 0;
+	testStart = 0;
 
-  /* USER CODE END 2 */
+	/* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		//int i = Enc_GetCnt(&CodeurGauche);
+		//int i = ENC_GetCnt(&CodeurGauche);
 		//printf("cpt = %d\r\n",cpt);
 		//printf("Ticks = %d\r\n",i);
 		//printf("%d\r\n",i);
 		//printf("%f\r\n",(float)DISTANCE_PER_TICK);
 
-		/*
+		if(testStart){
+			HAL_Delay(8000);
+			testStart = 0;
+			acc = 0;
+			MOT_SetDutyCycle(&MoteurGauche, 0);
+			MOT_SetDutyCycle(&MoteurDroite, 0);
+		}
+
 		if(reglage){
 			HAL_Delay(1650);
 			MOT_SetDutyCycle(&MoteurGauche, 0);
@@ -188,60 +188,59 @@ int main(void)
 			printf("G: %d\t D: %d\r\n",ticksGauche,ticksDroite);
 			reglage = 0;
 		}
-		*/
 
 		//HAL_Delay(1000);
 
-    /* USER CODE END WHILE */
+		/* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+		/* USER CODE BEGIN 3 */
 	}
-  /* USER CODE END 3 */
+	/* USER CODE END 3 */
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Configure the main internal regulator output voltage
-  */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
-  RCC_OscInitStruct.PLL.PLLQ = 2;
-  RCC_OscInitStruct.PLL.PLLR = 2;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+	/** Configure the main internal regulator output voltage
+	 */
+	__HAL_RCC_PWR_CLK_ENABLE();
+	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+	/** Initializes the RCC Oscillators according to the specified parameters
+	 * in the RCC_OscInitTypeDef structure.
+	 */
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+	RCC_OscInitStruct.PLL.PLLM = 16;
+	RCC_OscInitStruct.PLL.PLLN = 336;
+	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+	RCC_OscInitStruct.PLL.PLLQ = 2;
+	RCC_OscInitStruct.PLL.PLLR = 2;
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	/** Initializes the CPU, AHB and APB buses clocks
+	 */
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+			|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+	{
+		Error_Handler();
+	}
 }
 
 /* USER CODE BEGIN 4 */
@@ -250,6 +249,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin == GPIO_PIN_13){
 		if(testStart == 0) {
 			testStart = 1;
+			acc = 0;
 			printf("Debut du test\r\n");
 		}
 		else {
@@ -291,34 +291,34 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
+	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 	while (1)
 	{
 	}
-  /* USER CODE END Error_Handler_Debug */
+	/* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
+	/* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+	/* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 

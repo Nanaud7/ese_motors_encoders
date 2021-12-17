@@ -58,7 +58,7 @@ typedef struct ENC_HandleTypeDef{
  * @brief Encoder initialization functions
  */
 uint8_t ENC_InitTimer(ENC_HandleTypeDef* Encoder, TIM_HandleTypeDef *htim, uint32_t Channel_A, uint32_t Channel_B);
-void ENC_SetTicksPerRev(ENC_HandleTypeDef* Encoder, uint16_t ticksPerRev);
+void ENC_SetTicksPerRev(ENC_HandleTypeDef* Encoder, float ticksPerRev);
 
 /**
  * @brief Encoder retrieving and control functions

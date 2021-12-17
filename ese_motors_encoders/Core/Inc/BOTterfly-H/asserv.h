@@ -33,6 +33,8 @@ typedef struct ASSERV_HandleTypeDef{
 	struct Mot_Struct *MotorRight;
 } ASSERV_HandleTypeDef;
 
+extern double acc;
+
 uint8_t Ctrl_Init_SetTimer(ASSERV_HandleTypeDef* Control, TIM_HandleTypeDef *htim);
 uint8_t Ctrl_Set_Consigne(double new_Consigne);
 uint8_t Ctrl_Set_Kp(float new_Kp);

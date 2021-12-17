@@ -1,6 +1,7 @@
 #include <BOTterfly-H/asserv.h>
 
-double consigne = 0.125;
+double consigne = 120;
+double acc = 0;
 
 /*
  *
@@ -58,29 +59,33 @@ float Ctrl_Get_Ki(){
  *	@retval 0
  */
 float Ctrl_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder){
-	//static double sommeErreur = 0;
-
-	// Réception du nombre de ticks du codeur
+	// Récupération du nombre de ticks
 	int16_t ticks = ENC_GetCnt(Encoder);
-	if(ticks < 0) ticks = abs(ticks);
+	if(ticks < 0) ticks = ticks * (-1);
 
-	// Calcul de la vitesse à part
+	// Calcul de la vitesse du moteur
 	int freq_codeuse = SPEED_CONTROL_FREQUENCY * ticks;
-	//float speed = (float)freq_codeuse/(float)ENCODER_PPR; 				// Vitesse en tour/min
-	//float speed = (float)freq_codeuse * (float)DISTANCE_PER_TICK;			// Vitesse en mm/sec
-	float speed = ((float)freq_codeuse * ((float)WHEEL_PERIMETER/Encoder->TicksPerRev)) / 1000;	// Vitesse en m/sec
+	float speed = ((float)freq_codeuse * ((float)WHEEL_PERIMETER/Encoder->TicksPerRev));
+	// Vitesse calculée en mm/sec
 
-	// Erreur entre la consigne et la vitesse calculée
-	//double erreur = consigne - speed;
-	float erreur = consigne - speed;
-	Motor->sommeErreur += erreur;
+	// Calcul de l'erreur
+	if(acc < 1) acc+=0.01;
+	else acc = 1;
+
+	float erreur = consigne * acc - speed;
+	float correcteurI = Motor->Ki * (erreur + Motor->erreurPrecedente)
+			* (1/((float)SPEED_CONTROL_FREQUENCY * 2))
+			+ Motor->siPrecedente;
 
 	// Correcteur PI
-	float cmd = 60 + erreur * Motor->Kp + Motor->sommeErreur * Motor->Ki;
-	if(cmd >= 80) 		cmd = 80;
-	else if(cmd < 0) 	cmd = 0;
+	float s = Motor->Kp * erreur + correcteurI;
+	if(s >= 80) 	s = 80;
+	else if(s < 0) 	s = 0;
 
-	MOT_SetDutyCycle(Motor,cmd);
+	Motor->siPrecedente = correcteurI;
+	Motor->erreurPrecedente = erreur;
 
-	return speed;
+	MOT_SetDutyCycle(Motor,s);
+
+	return s;
 }
