@@ -1,7 +1,7 @@
 #include <BOTterfly-H/asserv.h>
 
-double consigne = 120;
-double acc = 0;
+double consigne = 100;
+double acc = 1; // 0
 
 /*
  *
@@ -54,6 +54,8 @@ float Ctrl_Get_Ki(){
  *
  */
 
+#define ENC_COEFF ((float)0.082826)
+
 /*	@brief	Speed control function called with a 50Hz frequency
  *	@param	None
  *	@retval 0
@@ -65,7 +67,8 @@ float Ctrl_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder){
 
 	// Calcul de la vitesse du moteur
 	int freq_codeuse = SPEED_CONTROL_FREQUENCY * ticks;
-	float speed = ((float)freq_codeuse * ((float)WHEEL_PERIMETER/Encoder->TicksPerRev));
+	//float speed = ((float)freq_codeuse * ((float)WHEEL_PERIMETER/Encoder->TicksPerRev));
+	float speed = ((float)freq_codeuse * ENC_COEFF);
 	// Vitesse calculée en mm/sec
 
 	// Calcul de l'erreur

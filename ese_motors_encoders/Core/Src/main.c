@@ -126,7 +126,7 @@ int main(void)
 	/* Moteur Gauche */
 	MOT_InitTimer(&MoteurGauche, &htim1, TIM_CHANNEL_1); // PA8 / D7
 	MOT_InitGPIOs(&MoteurGauche, GPIOC, GPIO_PIN_1, GPIOC, GPIO_PIN_0); // IN1:PC0 et IN2:PC1
-	MOT_SetCoeff(&MoteurGauche, 2.75, 0.75);
+	MOT_SetCoeff(&MoteurGauche, 2, 0.5);
 	MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_REVERSE);
 	MOT_SetDutyCycle(&MoteurGauche, 0); // 66
 	//HAL_ADC_Start_IT(&hadc1);
@@ -134,7 +134,7 @@ int main(void)
 	/* Moteur Droite */
 	MOT_InitTimer(&MoteurDroite, &htim1, TIM_CHANNEL_2); // PA9 / D8
 	MOT_InitGPIOs(&MoteurDroite, GPIOB, GPIO_PIN_8, GPIOB, GPIO_PIN_9); // IN1:PB8 et IN2:PB9
-	MOT_SetCoeff(&MoteurDroite, 2.75, 0.75);
+	MOT_SetCoeff(&MoteurDroite, 2, 0.5);
 	MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_REVERSE);
 	MOT_SetDutyCycle(&MoteurDroite, 0);
 
@@ -144,11 +144,11 @@ int main(void)
 
 	/* Encodeur Gauche */
 	ENC_InitTimer(&CodeurGauche, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
-	ENC_SetTicksPerRev(&CodeurGauche, 1355.2);
+	//ENC_SetTicksPerRev(&CodeurGauche, 1355.2);
 
 	/* Encodeur Droite */
 	ENC_InitTimer(&CodeurDroite, &htim3, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA6 et PhB:PA7
-	ENC_SetTicksPerRev(&CodeurDroite, 1364.2);
+	//ENC_SetTicksPerRev(&CodeurDroite, 1364.2);
 
 	/* Fin initialisation des encodeurs ------------------------------------------*/
 
@@ -157,6 +157,9 @@ int main(void)
 
 	reglage = 0;
 	testStart = 0;
+
+	int16_t ticksGauche = 0;
+	int16_t ticksDroite = 0;
 
 	/* USER CODE END 2 */
 
@@ -171,13 +174,22 @@ int main(void)
 		//printf("%f\r\n",(float)DISTANCE_PER_TICK);
 
 		if(testStart){
-			HAL_Delay(8000);
+			/*
+			MOT_SetDutyCycle(&MoteurGauche, 65);
+			MOT_SetDutyCycle(&MoteurDroite, 65);
+			HAL_Delay(6000);
 			testStart = 0;
 			acc = 0;
 			MOT_SetDutyCycle(&MoteurGauche, 0);
 			MOT_SetDutyCycle(&MoteurDroite, 0);
+			ticksGauche = ENC_GetCnt(&CodeurGauche);
+			ticksDroite = ENC_GetCnt(&CodeurDroite);
+			*/
 		}
 
+		//printf("G: %d\t D: %d\r\n",ticksGauche,ticksDroite);
+
+		/*
 		if(reglage){
 			HAL_Delay(1650);
 			MOT_SetDutyCycle(&MoteurGauche, 0);
@@ -188,6 +200,7 @@ int main(void)
 			printf("G: %d\t D: %d\r\n",ticksGauche,ticksDroite);
 			reglage = 0;
 		}
+		*/
 
 		//HAL_Delay(1000);
 
