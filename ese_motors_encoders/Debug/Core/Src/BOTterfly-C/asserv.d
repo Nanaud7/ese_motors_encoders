@@ -32,7 +32,8 @@ Core/Src/BOTterfly-C/asserv.o: ../Core/Src/BOTterfly-C/asserv.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/BOTterfly-H/modules.h ../Core/Inc/BOTterfly-H/motor.h
+ ../Core/Inc/BOTterfly-H/modules.h ../Core/Inc/BOTterfly-H/motor.h \
+ ../Core/Inc/BOTterfly-H/odo.h
 
 ../Core/Inc/BOTterfly-H/asserv.h:
 
@@ -107,3 +108,5 @@ Core/Src/BOTterfly-C/asserv.o: ../Core/Src/BOTterfly-C/asserv.c \
 ../Core/Inc/BOTterfly-H/modules.h:
 
 ../Core/Inc/BOTterfly-H/motor.h:
+
+../Core/Inc/BOTterfly-H/odo.h:

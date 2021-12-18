@@ -7,25 +7,30 @@
 #include "math.h"
 
 /* Structures */
-typedef struct Odo_Struct{
+typedef struct ODO_HandleTypeDef{
 	// Encoders
-	struct ENC_HandleTypeDef *LeftEncoder;
-	struct ENC_HandleTypeDef *RightEncoder;
+	//struct ENC_HandleTypeDef *LeftEncoder;
+	//struct ENC_HandleTypeDef *RightEncoder;
 
 	// Robot position
-	double x;
-	double y;
-	double o;
+	//double x;
+	//double y;
+	//double o;
 
-} Odo_Struct;
+	// Last encoders ticks
+	int32_t leftTicks;
+	int32_t rightTicks;
+
+} ODO_HandleTypeDef;
 
 /* Defines */
-#define COEFF_ENC_LEFT	1
-#define COEFF_ENC_RIGHT	1
-#define CENTER_DISTANCE 1 	// Entraxe
+#define COEFF_ENC_LEFT	0.085003
+#define COEFF_ENC_RIGHT	0.084198
+#define CENTER_DISTANCE 183 	// Entraxe
 
 /* Prototypes */
-uint8_t Odo_Init(Odo_Struct* Odo, struct ENC_HandleTypeDef* LeftEncoder, struct ENC_HandleTypeDef* RightEncoder);
-uint8_t Odo_Odometry(Odo_Struct* Odo);
+//uint8_t Odo_Init(ODO_HandleTypeDef* Odo, struct ENC_HandleTypeDef* LeftEncoder, struct ENC_HandleTypeDef* RightEncoder);
+uint8_t Odo_Init(ODO_HandleTypeDef* Odo);
+uint8_t Odo_Odometry(ODO_HandleTypeDef* Odo);
 
 #endif /* INC_ODOMETRY_H_ */

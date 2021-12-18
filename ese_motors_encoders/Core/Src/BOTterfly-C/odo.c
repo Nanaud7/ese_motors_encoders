@@ -1,18 +1,26 @@
 #include <BOTterfly-H/odo.h>
 
+// Variables
+double x = 0;
+double y = 0;
+double o = 0;
+
 /*
  *
  * INITIALIZATION FUNCTIONS
  *
  */
 
-uint8_t Odo_Init(Odo_Struct* Odo, ENC_HandleTypeDef* LeftEncoder, ENC_HandleTypeDef* RightEncoder){
-	Odo->LeftEncoder = LeftEncoder;
-	Odo->RightEncoder = RightEncoder;
+uint8_t Odo_Init(ODO_HandleTypeDef* Odo){
+	//Odo->LeftEncoder = LeftEncoder;
+	//Odo->RightEncoder = RightEncoder;
 
-	Odo->x = 0;
-	Odo->y = 0;
-	Odo->o = 0;
+	Odo->leftTicks = 0;
+	Odo->rightTicks = 0;
+
+	x = 0;
+	y = 0;
+	o = 0;
 	return 0;
 }
 
@@ -26,25 +34,33 @@ uint8_t Odo_Init(Odo_Struct* Odo, ENC_HandleTypeDef* LeftEncoder, ENC_HandleType
  *	@param	Odo is a Odo_Struct structure
  *	@retval 0
  */
-uint8_t Odo_Odometry(Odo_Struct* Odo){
-	int16_t tickLeft = ENC_GetCnt(Odo->LeftEncoder);
-	int16_t tickRight = ENC_GetCnt(Odo->RightEncoder);
+uint8_t Odo_Odometry(ODO_HandleTypeDef* Odo){
+	//int16_t tickLeft = ENC_GetCnt(Odo->LeftEncoder);
+	//int16_t tickRight = ENC_GetCnt(Odo->RightEncoder);
 
-	float dDistance = (tickLeft * COEFF_ENC_LEFT + tickRight * COEFF_ENC_RIGHT) / 2;
-	float dAngle = (tickRight * COEFF_ENC_RIGHT - tickLeft * COEFF_ENC_LEFT) / CENTER_DISTANCE;
+	Odo->leftTicks = Odo->leftTicks * (-1);
 
-	Odo->x += dDistance * cos(Odo->o);
-	Odo->y += dDistance * sin(Odo->o);
-	Odo->o += dAngle;
+	float dDistance = ((float)Odo->leftTicks * (float)COEFF_ENC_LEFT
+			+ (float)Odo->rightTicks * (float)COEFF_ENC_RIGHT) / 2;
+	float dAngle = ((float)Odo->rightTicks * (float)COEFF_ENC_RIGHT
+			- (float)Odo->leftTicks * (float)COEFF_ENC_LEFT)
+			/ (float)CENTER_DISTANCE;
 
-	if(Odo->o > M_PI)
-		Odo->o -= M_PI * 2.0f;
+	x += dDistance * cos(o);
+	y += dDistance * sin(o);
+	o += dAngle;
 
-	if(Odo->o < (-1) * M_PI)
-		Odo->o += M_PI * 2.0f;
+	if(o > M_PI)
+		o -= M_PI * 2.0f;
 
-	ENC_ResetCnt(Odo->LeftEncoder);
-	ENC_ResetCnt(Odo->RightEncoder);
+	if(o < (-1) * M_PI)
+		o += M_PI * 2.0f;
+
+	printf("x:%.1f\t\to:%.1f\r\n", x, o);
+	//printf("left:%d\t\tright:%d\r\n", Odo->leftTicks, Odo->rightTicks);
+
+	//ENC_ResetCnt(Odo->LeftEncoder);
+	//ENC_ResetCnt(Odo->RightEncoder);
 
 	return 0;
 }

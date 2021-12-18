@@ -41,6 +41,6 @@ uint8_t Ctrl_Set_Kp(float new_Kp);
 uint8_t Ctrl_Set_Ki(float new_Ki);
 float Ctrl_Get_Kp();
 float Ctrl_Get_Ki();
-float Ctrl_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder);
+int32_t Ctrl_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder);
 
 #endif /* INC_CONTROL_H_ */

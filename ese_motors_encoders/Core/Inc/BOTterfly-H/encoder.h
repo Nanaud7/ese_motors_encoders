@@ -32,6 +32,7 @@ typedef struct ENC_HandleTypeDef{
 	uint32_t Timer_Channel_B;	/* Timer Channel		*/
 
 	uint16_t TicksPerRev;		/* Ticks per revolution	*/
+	float TicksCoeff;
 } ENC_HandleTypeDef;
 
 /* End of exported types -----------------------------------------------------*/

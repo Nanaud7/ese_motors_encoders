@@ -33,7 +33,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/adc.h ../Core/Inc/main.h ../Core/Inc/tim.h \
  ../Core/Inc/usart.h ../Core/Inc/gpio.h ../Core/Inc/BOTterfly-H/modules.h \
  ../Core/Inc/BOTterfly-H/motor.h ../Core/Inc/BOTterfly-H/encoder.h \
- ../Core/Inc/BOTterfly-H/shell.h ../Core/Inc/BOTterfly-H/asserv.h
+ ../Core/Inc/BOTterfly-H/odo.h ../Core/Inc/BOTterfly-H/shell.h \
+ ../Core/Inc/BOTterfly-H/asserv.h
 
 ../Core/Inc/main.h:
 
@@ -114,6 +115,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/BOTterfly-H/motor.h:
 
 ../Core/Inc/BOTterfly-H/encoder.h:
+
+../Core/Inc/BOTterfly-H/odo.h:
 
 ../Core/Inc/BOTterfly-H/shell.h:
 

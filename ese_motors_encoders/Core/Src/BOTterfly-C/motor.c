@@ -78,13 +78,13 @@ void MOT_SetDirection(MOT_HandleTypeDef* Motor, uint8_t direction){
 		break;
 
 	case MOT_FUNCTIONS_FORWARD:
-		HAL_GPIO_WritePin(Motor->IN1_GPIOx, Motor->IN1_GPIO_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(Motor->IN2_GPIOx, Motor->IN2_GPIO_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(Motor->IN1_GPIOx, Motor->IN1_GPIO_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(Motor->IN2_GPIOx, Motor->IN2_GPIO_Pin, GPIO_PIN_SET);
 		break;
 
 	case MOT_FUNCTIONS_REVERSE:
-		HAL_GPIO_WritePin(Motor->IN1_GPIOx, Motor->IN1_GPIO_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(Motor->IN2_GPIOx, Motor->IN2_GPIO_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(Motor->IN1_GPIOx, Motor->IN1_GPIO_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(Motor->IN2_GPIOx, Motor->IN2_GPIO_Pin, GPIO_PIN_RESET);
 		break;
 
 	default:

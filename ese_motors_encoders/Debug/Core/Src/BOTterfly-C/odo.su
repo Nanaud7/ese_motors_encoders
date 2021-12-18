@@ -1,2 +1,2 @@
-odo.c:9:9:Odo_Init	24	static
-odo.c:29:9:Odo_Odometry	48	static
+odo.c:14:9:Odo_Init	16	static
+odo.c:37:9:Odo_Odometry	40	static

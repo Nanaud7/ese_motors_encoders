@@ -126,16 +126,16 @@ int main(void)
 	/* Moteur Gauche */
 	MOT_InitTimer(&MoteurGauche, &htim1, TIM_CHANNEL_1); // PA8 / D7
 	MOT_InitGPIOs(&MoteurGauche, GPIOC, GPIO_PIN_1, GPIOC, GPIO_PIN_0); // IN1:PC0 et IN2:PC1
-	MOT_SetCoeff(&MoteurGauche, 2, 0.5);
-	MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_REVERSE);
+	MOT_SetCoeff(&MoteurGauche, 0.01, 0);
+	MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_FORWARD);
 	MOT_SetDutyCycle(&MoteurGauche, 0); // 66
 	//HAL_ADC_Start_IT(&hadc1);
 
 	/* Moteur Droite */
 	MOT_InitTimer(&MoteurDroite, &htim1, TIM_CHANNEL_2); // PA9 / D8
 	MOT_InitGPIOs(&MoteurDroite, GPIOB, GPIO_PIN_8, GPIOB, GPIO_PIN_9); // IN1:PB8 et IN2:PB9
-	MOT_SetCoeff(&MoteurDroite, 2, 0.5);
-	MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_REVERSE);
+	MOT_SetCoeff(&MoteurDroite, 0.01, 0);
+	MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_FORWARD);
 	MOT_SetDutyCycle(&MoteurDroite, 0);
 
 	/* Fin initialisation des moteurs --------------------------------------------*/
@@ -144,16 +144,19 @@ int main(void)
 
 	/* Encodeur Gauche */
 	ENC_InitTimer(&CodeurGauche, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA0 et PhB:PA1
-	//ENC_SetTicksPerRev(&CodeurGauche, 1355.2);
+	ENC_SetTicksPerRev(&CodeurGauche, 1364.8);
+	CodeurGauche.TicksCoeff = 0.085430;
 
 	/* Encodeur Droite */
 	ENC_InitTimer(&CodeurDroite, &htim3, TIM_CHANNEL_1, TIM_CHANNEL_2); // PhA:PA6 et PhB:PA7
-	//ENC_SetTicksPerRev(&CodeurDroite, 1364.2);
+	ENC_SetTicksPerRev(&CodeurDroite, 1364.8);
+	CodeurDroite.TicksCoeff = 0.084198;
 
 	/* Fin initialisation des encodeurs ------------------------------------------*/
 
 	// Initialisation de l'asservissement
 	Ctrl_Init_SetTimer(&Asserv, &htim6);
+	Odo_Init(&Odometry);
 
 	reglage = 0;
 	testStart = 0;
@@ -175,16 +178,19 @@ int main(void)
 
 		if(testStart){
 			/*
-			MOT_SetDutyCycle(&MoteurGauche, 65);
-			MOT_SetDutyCycle(&MoteurDroite, 65);
-			HAL_Delay(6000);
+			//MOT_SetDutyCycle(&MoteurGauche, 70);
+			//MOT_SetDutyCycle(&MoteurDroite, 70);
+			HAL_Delay(2500);
 			testStart = 0;
 			acc = 0;
 			MOT_SetDutyCycle(&MoteurGauche, 0);
 			MOT_SetDutyCycle(&MoteurDroite, 0);
+
 			ticksGauche = ENC_GetCnt(&CodeurGauche);
 			ticksDroite = ENC_GetCnt(&CodeurDroite);
-			*/
+			printf("G: %d\t D: %d\r\n",ticksGauche,ticksDroite);
+			 */
+
 		}
 
 		//printf("G: %d\t D: %d\r\n",ticksGauche,ticksDroite);
@@ -284,7 +290,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 		if(testStart == 1){
 			float ret_gauche = Ctrl_SpeedControl(&MoteurGauche, &CodeurGauche);
 			float ret_droite = Ctrl_SpeedControl(&MoteurDroite, &CodeurDroite);
-			printf("G: %f\t D: %f\r\n",ret_gauche,ret_droite);
+			//printf("G: %f\t D: %f\r\n",ret_gauche,ret_droite);
+
+			Odometry.leftTicks = ret_gauche;
+			Odometry.rightTicks = ret_droite;
+			Odo_Odometry(&Odometry);
 		}
 		else{
 			MOT_SetDutyCycle(&MoteurGauche, 0);
